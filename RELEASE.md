@@ -4,7 +4,7 @@
 
 LinkedIn capture uses the selected vacancy link and nearby listing details to fill the title, company and location in manual capture and Easy Apply.
 
-The local package is `.output/job-application-tracker-0.1.8-chrome.zip`. Its SHA-256 is `058d9379345600f0c263b148c4f39551b413b1731ce28a93bff30c7809ac7a7e`.
+The local package is `.output/job-application-tracker-0.1.8-chrome.zip`. Its SHA-256 is `c63ca858226be2328d81292e49d44601465b150ec2f0c5695085b6172a943317`.
 
 ## 0.1.7
 
