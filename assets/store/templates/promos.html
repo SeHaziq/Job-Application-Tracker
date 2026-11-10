@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Application Tracker — Chrome Web Store assets</title>
+<link rel="stylesheet" href="../../../ui/base.css">
+<link rel="stylesheet" href="../../../entrypoints/dashboard/dashboard.css">
+<link rel="stylesheet" href="../../../entrypoints/popup/popup.css">
+<link rel="stylesheet" href="../../../ui/notification.css">
+<link rel="stylesheet" href="promos.css">
+</head>
+<body class="studio">
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 7 3v5c0 4-3 7-7 10-4-3-7-6-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0 4 4m-4-4L8 8M5 21h14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6"/><path d="m14 3-4 18"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10m5 10V4m5 16v-7m5 7V7"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></symbol>
+  <symbol id="i-forward" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3M20 5v6h-6"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+</svg>
+
+<!-- 1 · Track every application -->
+<section class="canvas shot" id="shot-track" data-out="screenshots/01-track-every-application.png">
+  <div class="backdrop"></div>
+  <div class="stage-glow"></div>
+  <div class="copy">
+    <div class="lockup">
+      <img src="../../icon.svg" width="40" height="40" alt="">
+      <div><strong>Job Application Tracker</strong><span>Private job search</span></div>
+    </div>
+    <p class="feature">Track every application</p>
+    <h2>Every application.<br>One clear log.</h2>
+    <p class="lede">Keep every role, status, and detail in one private place — no spreadsheet to maintain.</p>
+    <div class="chips">
+      <span class="badge badge-site_confirmed">Site confirmed</span>
+      <span class="badge badge-user_confirmed">User confirmed</span>
+      <span class="badge badge-unconfirmed">Unconfirmed</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="window-wrap dash-wrap">
+      <div class="dash-window variant-log">
+        <header class="app-header"><div class="header-inner">
+          <div class="brand"><img class="brand-mark" src="../../icon.svg" width="32" height="32" alt="">
+            <span class="brand-text"><strong>Job Application Tracker</strong><small>Private job search</small></span></div>
+          <nav class="app-nav"><a href="#">Application log</a><a href="#">Data</a><a href="#">Settings</a></nav>
+        </div></header>
+        <div class="workspace">
+          <div class="workspace-title">
+            <div class="page-intro"><h1>Applications</h1><p>See where you’ve applied and what’s moving forward.</p></div>
+            <div class="workspace-actions">
+              <span class="local-label"><svg class="ico"><use href="#i-lock"/></svg>Stored on this device</span>
+              <button class="primary"><svg class="ico"><use href="#i-plus"/></svg>Add a job</button>
+            </div>
+          </div>
+          <section class="summary-panel" aria-label="Application summary">
+            <dl class="stats">
+              <div><dt>Applications</dt><dd>24</dd></div>
+              <div><dt>This week</dt><dd>4</dd></div>
+              <div><dt>This month</dt><dd>6</dd></div>
+              <div><dt>Interviews</dt><dd>4</dd></div>
+              <div><dt>Offers</dt><dd>1</dd></div>
+              <div><dt>Rejections</dt><dd>2</dd></div>
+              <div><dt>Unconfirmed</dt><dd>2</dd></div>
+            </dl>
+          </section>
+          <section class="panel" id="application-log" aria-labelledby="log-title-track">
+            <div class="section-heading"><div><h2 id="log-title-track">Application log</h2>
+              <p class="muted">Open a job title to review the saved details.</p></div></div>
+            <div class="filter-bar">
+              <label class="search-field">Search<input type="search" placeholder="Company, job title or location"></label>
+              <label>Platform<select><option>All platforms</option></select></label>
+              <label>Status<select><option>All statuses</option></select></label>
+              <label>Verification<select><option>Any</option></select></label>
+              <label>Sort by<select><option>Newest date</option></select></label>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Company</th><th>Job title</th><th>Salary</th><th>Platform</th><th>Applied</th><th>Status</th><th>Verification</th></tr></thead>
+                <tbody>
+                  <tr><td class="company-cell">Northwind Studio</td><td><button class="text-button">Senior Product Designer</button></td><td class="salary-cell">RM 9,000 – RM 12,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/jobstreet.png" width="16" height="16" alt="">JobStreet</td><td class="date-cell">Nov 4, 2026</td><td><span class="badge badge-applied">Applied</span></td><td><span class="badge badge-site_confirmed">Site confirmed</span></td></tr>
+                  <tr><td class="company-cell">Lumen Labs</td><td><button class="text-button">UX Researcher</button></td><td class="salary-cell">RM 8,000 – RM 10,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/linkedin.ico" width="16" height="16" alt="">LinkedIn</td><td class="date-cell">Oct 28, 2026</td><td><span class="badge badge-interview">Interview</span></td><td><span class="badge badge-user_confirmed">User confirmed</span></td></tr>
+                  <tr><td class="company-cell">Harbor &amp; Co.</td><td><button class="text-button">Design Systems Lead</button></td><td class="salary-cell">RM 11,000 – RM 14,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/myfuturejobs.png" width="16" height="16" alt="">MYFutureJobs</td><td class="date-cell">Oct 23, 2026</td><td><span class="badge badge-assessment">Assessment</span></td><td><span class="badge badge-site_confirmed">Site confirmed</span></td></tr>
+                  <tr><td class="company-cell">Orbit Systems</td><td><button class="text-button">Product Designer</button></td><td class="salary-cell">RM 10,000 – RM 13,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/maukerja.png" width="16" height="16" alt="">MauKerja</td><td class="date-cell">Oct 16, 2026</td><td><span class="badge badge-offer">Offer</span></td><td><span class="badge badge-site_confirmed">Site confirmed</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <footer class="table-footer"><span class="muted">1–4 of 24 records</span></footer>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="canvas-foot"><span class="foot-dot"></span>Chrome extension · Your data stays in your browser</p>
+</section>
+
+<!-- 2 · Smart application detection -->
+<section class="canvas shot" id="shot-detection" data-out="screenshots/02-smart-application-detection.png">
+  <div class="backdrop"></div>
+  <div class="stage-glow"></div>
+  <div class="copy">
+    <div class="lockup">
+      <img src="../../icon.svg" width="40" height="40" alt="">
+      <div><strong>Job Application Tracker</strong><span>Private job search</span></div>
+    </div>
+    <p class="feature">Smart application detection</p>
+    <h2>Detection that<br>asks first.</h2>
+    <p class="lede">On supported job sites, the tracker notices a submission and asks what to save — so you stay in control.</p>
+    <div class="platform-grid">
+      <span class="platform-chip"><img src="../../../public/platform-icons/linkedin.ico" width="14" height="14" alt="">LinkedIn</span>
+      <span class="platform-chip"><img src="../../../public/platform-icons/jobstreet.png" width="14" height="14" alt="">JobStreet</span>
+      <span class="platform-chip"><img src="../../../public/platform-icons/myfuturejobs.png" width="14" height="14" alt="">MYFutureJobs</span>
+      <span class="platform-chip"><img src="../../../public/platform-icons/maukerja.png" width="14" height="14" alt="">MauKerja</span>
+      <span class="platform-chip platform-chip-wide"><svg class="ico"><use href="#i-globe"/></svg>Manual capture on any other site</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="page-window">
+      <div class="browser-bar">
+        <div class="traffic"><i></i><i></i><i></i></div>
+        <div class="browser-nav"><svg class="ico"><use href="#i-back"/></svg><svg class="ico"><use href="#i-forward"/></svg><svg class="ico"><use href="#i-refresh"/></svg></div>
+        <div class="url-pill"><svg class="ico"><use href="#i-lock"/></svg>my.jobstreet.com/job/senior-product-designer</div>
+        <span class="browser-dots">···</span>
+      </div>
+      <div class="job-page">
+        <div class="job-page-head"><span class="job-site-mark"><img src="../../../public/platform-icons/jobstreet.png" width="20" height="20" alt=""></span><strong>jobstreet</strong><span class="job-nav">Jobs</span><span class="job-nav">Companies</span><span class="job-nav">Career advice</span></div>
+        <div class="job-layout">
+          <div class="job-main">
+            <span class="job-eyebrow">Design &amp; Creative</span>
+            <h3>Senior Product Designer</h3>
+            <p class="job-meta">Northwind Studio · Kuala Lumpur · Hybrid</p>
+            <div class="job-rule"></div>
+            <p class="job-body">Help shape a calm, useful product experience for teams around the world. You’ll work across research, systems, and shipped interface work.</p>
+            <div class="job-skills"><span>Product design</span><span>Design systems</span><span>Figma</span></div>
+            <button class="apply-button">Apply now</button>
+            <p class="job-note">Application takes about 5 minutes</p>
+          </div>
+          <aside class="job-aside">
+            <span class="job-label">Salary</span><strong>RM 9,000 – RM 12,000</strong>
+            <span class="job-label">Posted</span><strong>2 days ago</strong>
+            <span class="job-label">Applicants</span><strong>38</strong>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <section class="tracker-card toast-demo" aria-label="Job application detected">
+      <div class="tracker-head"><strong role="status">Job application detected</strong><button class="tracker-close" aria-label="Dismiss and discard">×</button></div>
+      <h2>Senior Product Designer</h2>
+      <p>Northwind Studio</p>
+      <p>Did you successfully submit this application?</p>
+      <div class="tracker-actions"><button class="tracker-primary">Yes, save</button><button>No</button></div>
+      <div class="tracker-countdown">
+        <div class="tracker-countdown-row"><span>Auto-save in</span><span>10s</span></div>
+        <progress max="100" value="78" aria-label="Auto-save remaining time"></progress>
+      </div>
+    </section>
+
+    <div class="popup-card">
+      <main class="popup">
+        <header class="popup-header">
+          <img class="popup-logo" src="../../icon.svg" width="32" height="32" alt="">
+          <div class="popup-title"><h1>Job Application Tracker</h1><p>Private job search</p></div>
+          <a class="icon-button popup-settings" aria-label="Settings"><svg class="ico"><use href="#i-settings"/></svg></a>
+        </header>
+        <section class="popup-capture" aria-label="Current tab">
+          <div class="popup-site">
+            <span class="popup-site-icon"><img class="platform-logo" src="../../../public/platform-icons/jobstreet.png" width="26" height="26" alt=""></span>
+            <div class="popup-site-copy">
+              <span class="popup-site-label">Current tab</span>
+              <strong>my.jobstreet.com</strong>
+              <span class="popup-site-status"><span class="status-dot" aria-hidden="true"></span>JobStreet detection on</span>
+            </div>
+          </div>
+          <button class="primary popup-save"><svg class="ico"><use href="#i-plus"/></svg>Save current job</button>
+          <p class="popup-history"><svg class="ico"><use href="#i-clock"/></svg><span>You applied for this position on November 4, 2026.</span></p>
+        </section>
+        <section class="popup-overview" aria-labelledby="popup-overview-title">
+          <h2 id="popup-overview-title">Application log</h2>
+          <dl class="stats">
+            <div><dt>Applications</dt><dd>24</dd></div>
+            <div><dt>Interviews</dt><dd>4</dd></div>
+            <div><dt>Offers</dt><dd>1</dd></div>
+            <div><dt>Unconfirmed</dt><dd>2</dd></div>
+          </dl>
+        </section>
+        <footer class="popup-footer">
+          <a class="popup-dashboard-link">Open dashboard<svg class="ico"><use href="#i-arrow-right"/></svg></a>
+          <ul class="popup-trust" aria-label="Project and privacy">
+            <li><svg class="ico"><use href="#i-shield"/></svg>No ads</li>
+            <li><svg class="ico"><use href="#i-lock"/></svg>No tracking</li>
+            <li><svg class="ico"><use href="#i-code"/></svg>Open source</li>
+          </ul>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <p class="canvas-foot"><span class="foot-dot"></span>Site-confirmed · User-confirmed · Unconfirmed</p>
+</section>
+
+<!-- 3 · Job search dashboard -->
+<section class="canvas shot" id="shot-dashboard" data-out="screenshots/03-job-search-dashboard.png">
+  <div class="backdrop"></div>
+  <div class="stage-glow"></div>
+  <div class="copy">
+    <div class="lockup">
+      <img src="../../icon.svg" width="40" height="40" alt="">
+      <div><strong>Job Application Tracker</strong><span>Private job search</span></div>
+    </div>
+    <p class="feature">Job search dashboard</p>
+    <h2>See your<br>search clearly.</h2>
+    <p class="lede">Weekly activity and a live status breakdown, built from your own application log.</p>
+    <div class="chips">
+      <span class="chip"><svg class="ico"><use href="#i-chart"/></svg>Applications over time</span>
+      <span class="chip"><svg class="ico"><use href="#i-list"/></svg>Status breakdown</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="window-wrap dash-wrap">
+      <div class="dash-window variant-insights">
+        <header class="app-header"><div class="header-inner">
+          <div class="brand"><img class="brand-mark" src="../../icon.svg" width="32" height="32" alt="">
+            <span class="brand-text"><strong>Job Application Tracker</strong><small>Private job search</small></span></div>
+          <nav class="app-nav"><a href="#">Application log</a><a href="#">Data</a><a href="#">Settings</a></nav>
+        </div></header>
+        <div class="workspace">
+          <div class="workspace-title">
+            <div class="page-intro"><h1>Applications</h1><p>See where you’ve applied and what’s moving forward.</p></div>
+            <div class="workspace-actions">
+              <span class="local-label"><svg class="ico"><use href="#i-lock"/></svg>Stored on this device</span>
+              <button class="primary"><svg class="ico"><use href="#i-plus"/></svg>Add a job</button>
+            </div>
+          </div>
+          <section class="summary-panel" aria-label="Application summary">
+            <dl class="stats">
+              <div><dt>Applications</dt><dd>24</dd></div>
+              <div><dt>This week</dt><dd>4</dd></div>
+              <div><dt>This month</dt><dd>6</dd></div>
+              <div><dt>Interviews</dt><dd>4</dd></div>
+              <div><dt>Offers</dt><dd>1</dd></div>
+              <div><dt>Rejections</dt><dd>2</dd></div>
+              <div><dt>Unconfirmed</dt><dd>2</dd></div>
+            </dl>
+          </section>
+          <div class="insights">
+            <section class="panel insight" aria-labelledby="activity-title">
+              <div class="insight-heading">
+                <div><h2 id="activity-title">Applications over time</h2>
+                  <p class="insight-summary"><strong>24</strong> applications in this period</p></div>
+                <select class="select-small" aria-label="Activity range"><option>Last 8 weeks</option></select>
+              </div>
+              <ol class="weekly-chart" aria-label="Applications by week, starting Monday">
+                <li><span class="week-track"><span class="week-bar" style="height:20%"><span>1</span></span></span><span class="week-date">Sep 21</span></li>
+                <li><span class="week-track"><span class="week-bar" style="height:60%"><span>3</span></span></span><span class="week-date">Sep 28</span></li>
+                <li><span class="week-track"><span class="week-bar" style="height:40%"><span>2</span></span></span><span class="week-date">Oct 5</span></li>
+                <li><span class="week-track"><span class="week-bar" style="height:80%"><span>4</span></span></span><span class="week-date">Oct 12</span></li>
+                <li><span class="week-track"><span class="week-bar" style="height:60%"><span>3</span></span></span><span class="week-date">Oct 19</span></li>
+                <li><span class="week-track"><span class="week-bar" style="height:100%"><span>5</span></span></span><span class="week-date">Oct 26</span></li>
+                <li><span class="week-track"><span class="week-bar" style="height:40%"><span>2</span></span></span><span class="week-date">Nov 2</span></li>
+                <li class="current-week"><span class="week-track"><span class="week-bar" style="height:80%"><span>4</span></span></span><span class="week-date">Nov 9</span></li>
+              </ol>
+              <p class="chart-note">Weeks start on Monday · Includes the current week</p>
+            </section>
+            <section class="panel insight" aria-labelledby="status-title">
+              <div class="insight-heading"><div><h2 id="status-title">Application status</h2>
+                <p class="insight-summary">Current status across all applications</p></div></div>
+              <ul class="status-chart">
+                <li><div><span>Applied</span><strong>14</strong></div><span class="status-track"><span class="status-bar status-bar-applied" style="width:58%"></span></span></li>
+                <li><div><span>Assessment</span><strong>3</strong></div><span class="status-track"><span class="status-bar status-bar-assessment" style="width:13%"></span></span></li>
+                <li><div><span>Interview</span><strong>4</strong></div><span class="status-track"><span class="status-bar status-bar-interview" style="width:17%"></span></span></li>
+                <li><div><span>Offer</span><strong>1</strong></div><span class="status-track"><span class="status-bar status-bar-offer" style="width:4%"></span></span></li>
+                <li><div><span>Rejected</span><strong>2</strong></div><span class="status-track"><span class="status-bar status-bar-rejected" style="width:8%"></span></span></li>
+                <li><div><span>Withdrawn</span><strong>0</strong></div><span class="status-track"><span class="status-bar status-bar-withdrawn" style="width:0%"></span></span></li>
+              </ul>
+            </section>
+          </div>
+          <section class="panel log-preview" aria-labelledby="log-preview-title">
+            <div class="section-heading"><div><h2 id="log-preview-title">Application log</h2>
+              <p class="muted">Open a job title to review the saved details.</p></div></div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Company</th><th>Job title</th><th>Salary</th><th>Platform</th><th>Applied</th><th>Status</th><th>Verification</th></tr></thead>
+                <tbody>
+                  <tr><td class="company-cell">Northwind Studio</td><td><button class="text-button">Senior Product Designer</button></td><td class="salary-cell">RM 9,000 – RM 12,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/jobstreet.png" width="16" height="16" alt="">JobStreet</td><td class="date-cell">Nov 4, 2026</td><td><span class="badge badge-applied">Applied</span></td><td><span class="badge badge-site_confirmed">Site confirmed</span></td></tr>
+                  <tr><td class="company-cell">Lumen Labs</td><td><button class="text-button">UX Researcher</button></td><td class="salary-cell">RM 8,000 – RM 10,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/linkedin.ico" width="16" height="16" alt="">LinkedIn</td><td class="date-cell">Oct 28, 2026</td><td><span class="badge badge-interview">Interview</span></td><td><span class="badge badge-user_confirmed">User confirmed</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="canvas-foot"><span class="foot-dot"></span>Chrome extension · Your data stays in your browser</p>
+</section>
+
+<!-- 4 · CSV / Excel / JSON export -->
+<section class="canvas shot" id="shot-export" data-out="screenshots/04-csv-excel-json-export.png">
+  <div class="backdrop"></div>
+  <div class="stage-glow"></div>
+  <div class="copy">
+    <div class="lockup">
+      <img src="../../icon.svg" width="40" height="40" alt="">
+      <div><strong>Job Application Tracker</strong><span>Private job search</span></div>
+    </div>
+    <p class="feature">CSV · XLSX · JSON export</p>
+    <h2>Your data.<br>Your format.</h2>
+    <p class="lede">Export the full log to CSV or XLSX. Back it up as JSON and restore it later.</p>
+    <div class="chips">
+      <span class="chip">CSV</span>
+      <span class="chip">XLSX</span>
+      <span class="chip">JSON</span>
+      <span class="chip"><svg class="ico"><use href="#i-lock"/></svg>Local files</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="export-wrap">
+      <section class="panel export-panel export-demo" aria-labelledby="data-heading">
+        <div class="section-heading"><div><h2 id="data-heading">Export and backup</h2>
+          <p class="muted">Export the whole log or restore records from a tracker backup.</p></div></div>
+        <div class="export-body">
+          <div class="export-actions">
+            <button><svg class="ico"><use href="#i-download"/></svg>Export CSV</button>
+            <button><svg class="ico"><use href="#i-download"/></svg>Export XLSX</button>
+            <button><svg class="ico"><use href="#i-download"/></svg>Back up JSON</button>
+            <button><svg class="ico"><use href="#i-upload"/></svg>Restore JSON</button>
+          </div>
+          <p class="export-status"><svg class="ico"><use href="#i-check"/></svg>Downloaded XLSX with 24 records.</p>
+        </div>
+      </section>
+
+      <div class="file-stack">
+        <article class="file-card file-csv">
+          <span class="file-icon">CSV</span>
+          <div><strong>Application log</strong><span>Spreadsheet-ready rows</span></div>
+          <svg class="ico"><use href="#i-check"/></svg>
+        </article>
+        <article class="file-card file-xlsx">
+          <span class="file-icon">XLSX</span>
+          <div><strong>application-log.xlsx</strong><span>24 records · Downloaded</span></div>
+          <svg class="ico"><use href="#i-check"/></svg>
+        </article>
+        <article class="file-card file-json">
+          <span class="file-icon">{ }</span>
+          <div><strong>Full JSON backup</strong><span>Restore any time</span></div>
+          <svg class="ico"><use href="#i-check"/></svg>
+        </article>
+      </div>
+
+      <div class="sheet-demo" aria-hidden="true">
+        <div class="sheet-head">
+          <span class="sheet-app"><img src="../../icon.svg" width="14" height="14" alt="">Job Application Tracker</span>
+          <span class="sheet-file">application-log.xlsx</span>
+          <span class="sheet-count">24 records</span>
+        </div>
+        <div class="sheet-grid">
+          <div class="sheet-row sheet-header"><span>Company</span><span>Job title</span><span>Status</span><span>Applied</span><span>Verification</span></div>
+          <div class="sheet-row"><span>Northwind Studio</span><span>Senior Product Designer</span><span class="sheet-status">Applied</span><span>Nov 4, 2026</span><span>Site confirmed</span></div>
+          <div class="sheet-row"><span>Lumen Labs</span><span>UX Researcher</span><span class="sheet-status">Interview</span><span>Oct 28, 2026</span><span>User confirmed</span></div>
+          <div class="sheet-row"><span>Harbor &amp; Co.</span><span>Design Systems Lead</span><span class="sheet-status">Assessment</span><span>Oct 23, 2026</span><span>Site confirmed</span></div>
+          <div class="sheet-row"><span>Orbit Systems</span><span>Product Designer</span><span class="sheet-status">Offer</span><span>Oct 16, 2026</span><span>Site confirmed</span></div>
+          <div class="sheet-row"><span>Fieldnote</span><span>Service Designer</span><span>Rejected</span><span>Oct 9, 2026</span><span>Unconfirmed</span></div>
+        </div>
+        <div class="sheet-foot"><span>Exported from your local log</span><strong>CSV · XLSX · JSON</strong></div>
+      </div>
+    </div>
+  </div>
+  <p class="canvas-foot"><span class="foot-dot"></span>Exports are ordinary local files you control</p>
+</section>
+
+<!-- 5 · Local-first privacy -->
+<section class="canvas shot" id="shot-privacy" data-out="screenshots/05-local-first-privacy.png">
+  <div class="backdrop"></div>
+  <div class="stage-glow"></div>
+  <div class="copy">
+    <div class="lockup">
+      <img src="../../icon.svg" width="40" height="40" alt="">
+      <div><strong>Job Application Tracker</strong><span>Private job search</span></div>
+    </div>
+    <p class="feature">Local-first privacy</p>
+    <h2>Private by design.<br>Local by default.</h2>
+    <p class="lede">No account, no analytics, no cloud database. Your log stays in your browser profile.</p>
+    <div class="chips">
+      <span class="chip"><svg class="ico"><use href="#i-shield"/></svg>No ads</span>
+      <span class="chip"><svg class="ico"><use href="#i-lock"/></svg>No tracking</span>
+      <span class="chip"><svg class="ico"><use href="#i-code"/></svg>Open source</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="privacy-hero">
+      <div class="privacy-rings" aria-hidden="true"></div>
+      <div class="privacy-mark"><svg class="ico"><use href="#i-shield"/></svg></div>
+      <span class="privacy-chip"><svg class="ico"><use href="#i-lock"/></svg>Stored on this device</span>
+      <h3>Your log never<br>leaves this browser.</h3>
+      <p>Records stay in your browser profile, not a remote account.</p>
+      <ul class="privacy-trust">
+        <li><svg class="ico"><use href="#i-lock"/></svg>No account</li>
+        <li><svg class="ico"><use href="#i-chart"/></svg>No analytics</li>
+        <li><svg class="ico"><use href="#i-globe"/></svg>No cloud database</li>
+      </ul>
+    </div>
+    <div class="privacy-detail">
+      <div class="privacy-detail-head"><span class="privacy-detail-icon"><svg class="ico"><use href="#i-lock"/></svg></span>
+        <div><strong>Local storage</strong><span>Exactly as the extension explains it</span></div></div>
+      <p>Records stay in this browser profile. Detection reads listing details and submission feedback. It does not read your form answers or upload files.</p>
+      <p class="privacy-detail-note"><svg class="ico"><use href="#i-check"/></svg>Export a JSON backup before clearing the log.</p>
+    </div>
+  </div>
+  <p class="canvas-foot"><span class="foot-dot"></span>No account · No analytics · No cloud database</p>
+</section>
+
+<!-- Small promotional tile -->
+<section class="canvas brand-tile" id="promo-small" data-out="promo/small-promo-440x280.png">
+  <div class="brand-glow"></div>
+  <div class="brand-grid" aria-hidden="true"></div>
+  <div class="mini-lockup"><img src="../../icon.svg" width="28" height="28" alt=""><span>Job Application Tracker</span></div>
+  <div class="tile-mark"><img src="../../icon.svg" width="104" height="104" alt=""><span class="tile-mark-ring"></span></div>
+  <h2>Every application.<br>One private place.</h2>
+  <p>Local-first. No account.</p>
+</section>
+
+<!-- Marquee promotional tile -->
+<section class="canvas brand-marquee" id="promo-marquee" data-out="promo/marquee-1400x560.png">
+  <div class="brand-glow marquee-glow"></div>
+  <div class="brand-grid" aria-hidden="true"></div>
+  <div class="marquee-copy">
+    <div class="mini-lockup"><img src="../../icon.svg" width="44" height="44" alt=""><span>Job Application Tracker</span></div>
+    <p class="feature">Local-first job search</p>
+    <h2>Track every<br>application.<br><em>Privately.</em></h2>
+    <p class="lede">Smart detection, a clear dashboard, and CSV, XLSX, or JSON export — all in your browser.</p>
+    <div class="marquee-chips"><span>No account</span><span>No analytics</span><span>Open source</span></div>
+  </div>
+  <p class="marquee-foot"><span class="foot-dot"></span>Built for a private job search.</p>
+  <div class="marquee-window-wrap">
+    <div class="dash-window variant-log">
+      <header class="app-header"><div class="header-inner">
+        <div class="brand"><img class="brand-mark" src="../../icon.svg" width="32" height="32" alt="">
+          <span class="brand-text"><strong>Job Application Tracker</strong><small>Private job search</small></span></div>
+        <nav class="app-nav"><a href="#">Application log</a><a href="#">Data</a><a href="#">Settings</a></nav>
+      </div></header>
+      <div class="workspace">
+        <div class="workspace-title">
+          <div class="page-intro"><h1>Applications</h1><p>See where you’ve applied and what’s moving forward.</p></div>
+          <div class="workspace-actions">
+            <span class="local-label"><svg class="ico"><use href="#i-lock"/></svg>Stored on this device</span>
+            <button class="primary"><svg class="ico"><use href="#i-plus"/></svg>Add a job</button>
+          </div>
+        </div>
+        <section class="summary-panel" aria-label="Application summary">
+          <dl class="stats">
+            <div><dt>Applications</dt><dd>24</dd></div>
+            <div><dt>This week</dt><dd>4</dd></div>
+            <div><dt>This month</dt><dd>6</dd></div>
+            <div><dt>Interviews</dt><dd>4</dd></div>
+            <div><dt>Offers</dt><dd>1</dd></div>
+            <div><dt>Rejections</dt><dd>2</dd></div>
+            <div><dt>Unconfirmed</dt><dd>2</dd></div>
+          </dl>
+        </section>
+        <section class="panel" aria-labelledby="marquee-log-title">
+          <div class="section-heading"><div><h2 id="marquee-log-title">Application log</h2>
+            <p class="muted">Open a job title to review the saved details.</p></div></div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Company</th><th>Job title</th><th>Salary</th><th>Platform</th><th>Applied</th><th>Status</th><th>Verification</th></tr></thead>
+              <tbody>
+                <tr><td class="company-cell">Northwind Studio</td><td><button class="text-button">Senior Product Designer</button></td><td class="salary-cell">RM 9,000 – RM 12,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/jobstreet.png" width="16" height="16" alt="">JobStreet</td><td class="date-cell">Nov 4, 2026</td><td><span class="badge badge-applied">Applied</span></td><td><span class="badge badge-site_confirmed">Site confirmed</span></td></tr>
+                <tr><td class="company-cell">Lumen Labs</td><td><button class="text-button">UX Researcher</button></td><td class="salary-cell">RM 8,000 – RM 10,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/linkedin.ico" width="16" height="16" alt="">LinkedIn</td><td class="date-cell">Oct 28, 2026</td><td><span class="badge badge-interview">Interview</span></td><td><span class="badge badge-user_confirmed">User confirmed</span></td></tr>
+                <tr><td class="company-cell">Harbor &amp; Co.</td><td><button class="text-button">Design Systems Lead</button></td><td class="salary-cell">RM 11,000 – RM 14,000</td><td class="platform-cell"><img class="platform-logo" src="../../../public/platform-icons/myfuturejobs.png" width="16" height="16" alt="">MYFutureJobs</td><td class="date-cell">Oct 23, 2026</td><td><span class="badge badge-assessment">Assessment</span></td><td><span class="badge badge-site_confirmed">Site confirmed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
