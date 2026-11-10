@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { browser } from 'wxt/browser';
 import { request } from '../../lib/messages';
 import { platformNames } from '../../lib/platforms';
-import { projectUrl } from '../../lib/project';
 import type { CapturedJob } from '../../lib/records';
 import { captureTab, currentTab } from '../../lib/current-tab';
 import type { Overview } from '../../lib/repository';
@@ -56,7 +55,9 @@ export default function App() {
       <section className="popup-capture" aria-label="Current tab">
         <div className="popup-site">
           <span className="popup-site-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v13H4zM4 10h16M7 8h.01M10 8h.01" /></svg>
+            {platform === 'generic'
+              ? <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v13H4zM4 10h16M7 8h.01M10 8h.01" /></svg>
+              : <img src={`/platform-icons/${platform === 'linkedin' ? 'linkedin.ico' : `${platform}.png`}`} width="28" height="28" alt="" />}
           </span>
           <div>
             <strong>{url ? new URL(url).hostname : 'Current tab'}</strong>
@@ -93,7 +94,7 @@ export default function App() {
         <ul className="popup-trust" aria-label="Project and privacy">
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 7 3v5c0 4-3 7-7 10-4-3-7-6-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>No ads</li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v3"/></svg>No tracking</li>
-          <li><a href={projectUrl} target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"/></svg>Source on GitHub</a></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"/></svg>Open source</li>
         </ul>
       </footer>
     </>}

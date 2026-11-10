@@ -68,7 +68,7 @@ export function SettingsPanel({ settings, onChange, onClear }: Props) {
     </div>
     <div className="privacy-row">
       <div><h3>Local storage</h3>
-        <p className="muted">Records stay in this Chrome profile. Detection reads listing details and submission feedback. It does not read your form answers or upload files.</p>
+        <p className="muted">Records stay in this browser profile. Detection reads listing details and submission feedback. It does not read your form answers or upload files.</p>
         <p className="muted">Export a JSON backup before clearing the log.</p>
       </div>
       <button className="danger" disabled={busy} onClick={() => void clear()}>Clear tracker data</button>

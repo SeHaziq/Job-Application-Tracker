@@ -203,6 +203,7 @@ try {
   const dashboard = await browser.newPage();
   await dashboard.goto(`${origin}/dashboard.html`);
   await dashboard.getByText('Your log is empty').waitFor();
+  await dashboard.getByText(/Records stay in this browser profile/).waitFor();
   const send = (type, input) => dashboard.evaluate(async ({ type, input }) => {
     const response = await globalThis.chrome.runtime.sendMessage({ channel: 'tracker', type, input });
     if (!response?.ok) throw new Error(response?.error ?? 'No worker response');
@@ -232,10 +233,12 @@ try {
       const view = globalThis.chrome.extension.getViews({ type: 'popup' })[0];
       if (!view) return null;
       const doc = view.document;
+      const icon = doc.querySelector('.popup-site-icon img');
       return {
         width: view.innerWidth,
         overflow: doc.documentElement.scrollWidth - doc.documentElement.clientWidth,
         host: doc.querySelector('.popup-site strong')?.textContent,
+        icon: icon?.naturalWidth ? new URL(icon.src).pathname : null,
         overview: doc.body.innerText.includes('Unconfirmed'),
         title: doc.querySelector('input[name=jobTitle]')?.value,
         company: doc.querySelector('input[name=companyName]')?.value,
@@ -246,6 +249,7 @@ try {
       };
     });
     const home = await eventually(measure, view => view?.host === 'my.jobstreet.com' && view.overview, 'Edge toolbar popup did not load');
+    await eventually(measure, view => view?.icon === '/platform-icons/jobstreet.png', 'JobStreet logo did not load');
     assert.ok(home.width >= 360 && home.overflow <= 0, `Edge toolbar popup was ${home.width}px wide with ${home.overflow}px overflow`);
     const clickSave = () => dashboard.evaluate(() => {
       const popup = globalThis.chrome.extension.getViews({ type: 'popup' })[0];
@@ -270,6 +274,7 @@ try {
     await listing.locator('#select-job').click();
     await openAction(listing.url());
     await eventually(measure, view => view?.host === 'www.maukerja.my', 'MauKerja toolbar popup did not open');
+    await eventually(measure, view => view?.icon === '/platform-icons/maukerja.png', 'MauKerja logo did not load');
     await clickSave();
     const maukerja = await eventually(measure, view => view?.title === 'Executive Assistant', 'MauKerja inline vacancy did not autofill');
     assert.equal(maukerja.company, 'Selected employer');
@@ -287,7 +292,9 @@ try {
   await popup.getByText('Unconfirmed', { exact: true }).waitFor();
   await popup.getByText('No ads', { exact: true }).waitFor();
   await popup.getByText('No tracking', { exact: true }).waitFor();
-  assert.match(await popup.getByRole('link', { name: 'Source on GitHub' }).getAttribute('href'), /github\.com\/SeHaziq\/Job-Application-Tracker$/);
+  const trust = popup.getByRole('list', { name: 'Project and privacy' });
+  await trust.getByText('Open source', { exact: true }).waitFor();
+  assert.equal(await trust.getByRole('link').count(), 0);
   await popup.locator('.popup').screenshot({ path: resolve(qa, 'popup-overview.png') });
   await popup.getByRole('button', { name: 'Save current job' }).click();
   await popup.getByLabel('Job title').fill('Data Analyst');

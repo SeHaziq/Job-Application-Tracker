@@ -1,10 +1,29 @@
 # Local release checklist
 
+## Submit updates to Microsoft Edge Add-ons
+
+The first version is published in Partner Center. To automate updates, add `EDGE_API_KEY` as a repository Actions secret and `EDGE_CLIENT_ID` and `EDGE_PRODUCT_ID` as repository Actions variables. Create the key in Partner Center under Microsoft Edge → Publish API and use the Product ID from the extension overview.
+
+Commit and push the version you want to release to `main`. The version in `package.json` must be higher than the version already in the store. Push a matching tag, such as `v0.1.15`, to run the build and submit that version for review.
+
+```powershell
+git tag v0.1.15
+git push origin v0.1.15
+```
+
+Branch pushes run the checks and build the ZIP. Follow the tag run under **Actions → Edge release**. A successful run means Partner Center created a review submission. Check Partner Center for certification and store availability. Wait for an existing review to finish before sending another release. If the API key expires, renew it in Partner Center and replace `EDGE_API_KEY` in GitHub.
+
+## 0.1.15
+
+The popup includes local icons for MauKerja, JobStreet, LinkedIn, and MYFutureJobs. The local storage settings use browser-neutral wording.
+
+The local package is `.output/job-application-tracker-0.1.15-chrome.zip`. Its SHA-256 is `a9451bdd31d16a32d347b0c9e369f8b1087cb58b786fe4dbd77997b38d237104`.
+
 ## 0.1.14
 
-The dashboard adds weekly application activity, current-status charts, and GitHub project links. The toolbar popup adds a compact privacy and source footer.
+The dashboard adds weekly application activity, current-status charts, and GitHub project links. The toolbar popup adds a compact footer with No ads, No tracking, and Open source.
 
-The local package is `.output/job-application-tracker-0.1.14-chrome.zip`. Its SHA-256 is `1d23f29032189d1af41e4841bbbe26385bd5eda0ed292cf2007b146d1abe72c9`.
+The local package is `.output/job-application-tracker-0.1.14-chrome.zip`. Its SHA-256 is `5546b933a5e57a4e713cc86df8995afe112d9f99f46cd7f538db5d54434e57d9`.
 
 ## 0.1.13
 

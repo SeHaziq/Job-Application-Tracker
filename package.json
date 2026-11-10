@@ -2,7 +2,7 @@
   "name": "job-application-tracker",
   "description": "Track job applications privately in your browser.",
   "private": true,
-  "version": "0.1.14",
+  "version": "0.1.15",
   "type": "module",
   "scripts": {
     "dev": "wxt",

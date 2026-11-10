@@ -66,6 +66,8 @@
   color: var(--accent);
 }
 
+.popup-site-icon img { object-fit: contain; }
+
 .popup-save { gap: 8px; min-block-size: 42px; }
 .popup-message { margin: 0; overflow-wrap: anywhere; }
 .popup-error { padding: 0 16px 12px; }
@@ -124,10 +126,8 @@
   font-size: .77rem;
 }
 
-.popup-trust li, .popup-trust a { display: inline-flex; align-items: center; gap: 5px; }
-.popup-trust li { padding: 0 9px; min-block-size: 26px; }
+.popup-trust li { display: inline-flex; align-items: center; gap: 5px; padding: 0 9px; min-block-size: 26px; }
 .popup-trust li + li { border-inline-start: 1px solid var(--line); }
-.popup-trust a { min-block-size: 26px; font-weight: 650; text-decoration: none; }
 .popup-trust svg { inline-size: 14px; block-size: 14px; color: var(--accent); }
 
 .popup-editor {

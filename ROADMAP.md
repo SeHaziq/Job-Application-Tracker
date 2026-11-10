@@ -95,3 +95,9 @@ The search card's apply state and button class distinguish application actions f
 ## 0.1.14 — Dashboard and project links
 
 The dashboard charts weekly applications and current status from local records. The popup adds privacy and source links, and the dashboard links to the GitHub project and feedback page.
+
+## 0.1.15 — Platform icons
+
+The popup shows locally bundled icons for supported websites. The local storage settings refer to the browser profile.
+
+GitHub Actions builds branch pushes and submits version tags from `main` to Microsoft Edge Add-ons. The first live workflow run still needs verification in GitHub and Partner Center.
