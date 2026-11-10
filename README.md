@@ -1,5 +1,5 @@
 # Job Application Tracker
-
+AI ASSISTED BROWSER EXTESION
 A local-first Chrome extension for saving jobs and tracking applications. It stores records in your Chrome profile and supports manual recording on any website.
 
 ## Install the unpacked build
