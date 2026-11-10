@@ -1,7 +1,28 @@
-import type { JobSummary } from './records';
+import { statuses, type JobSummary } from './records';
+
+function weekStart(date: Date, offset = 0) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() - (date.getDay() + 6) % 7 + offset * 7);
+}
+
+export function applicationInsights(records: JobSummary[], weekCount: number, now = new Date()) {
+  const weeks = Array.from({ length: weekCount }, (_, index) => ({
+    start: weekStart(now, index - weekCount + 1), count: 0,
+  }));
+  const byWeek = new Map(weeks.map(week => [week.start.getTime(), week]));
+  const byStatus = new Map(statuses.filter(status => status !== 'saved').map(status => [status, 0]));
+  for (const record of records) {
+    if (record.status === 'saved' || !record.appliedAt) continue;
+    byStatus.set(record.status, (byStatus.get(record.status) ?? 0) + 1);
+    const applied = new Date(record.appliedAt);
+    if (applied > now) continue;
+    const week = byWeek.get(weekStart(applied).getTime());
+    if (week) week.count++;
+  }
+  return { weeks, byStatus: [...byStatus] };
+}
 
 export function dashboardStats(records: JobSummary[], now = new Date()): [string, number][] {
-  const week = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() + 6) % 7);
+  const week = weekStart(now);
   const month = new Date(now.getFullYear(), now.getMonth(), 1);
   let total = 0, weekly = 0, monthly = 0, interviews = 0, offers = 0, rejected = 0, uncertain = 0;
   for (const record of records) {

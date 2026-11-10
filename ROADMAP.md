@@ -91,3 +91,7 @@ Mohon on a search card binds the draft to the clicked card. Hantar Sekarang reta
 ## 0.1.13 — MauKerja English labels
 
 The search card's apply state and button class distinguish application actions from progress. The English Apply Job, Apply Now, Submit Now, and success toast join the Malay flow. Live English submission still needs verification.
+
+## 0.1.14 — Dashboard and project links
+
+The dashboard charts weekly applications and current status from local records. The popup adds privacy and source links, and the dashboard links to the GitHub project and feedback page.

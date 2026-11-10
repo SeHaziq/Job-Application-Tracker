@@ -2,6 +2,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { ApplicationTable } from '../ui/ApplicationTable';
+import { applicationInsights } from '../lib/dashboard';
 import { JobForm } from '../ui/JobForm';
 import type { JobRecord } from '../lib/records';
 
@@ -16,6 +17,20 @@ const second: JobRecord = {
   appliedAt: '2026-11-05T10:30:00.000Z',
 };
 afterEach(cleanup);
+
+it('counts applications by local Monday and current status while excluding saved jobs', () => {
+  const now = new Date(2026, 10, 10, 12);
+  const previousSunday = new Date(2026, 10, 8, 23, 59).toISOString();
+  const thisMonday = new Date(2026, 10, 9, 0, 0).toISOString();
+  const report = applicationInsights([
+    { ...first, appliedAt: previousSunday },
+    { ...second, appliedAt: thisMonday },
+    { ...second, status: 'saved', appliedAt: null },
+  ], 4, now);
+  expect(report.weeks.map(week => week.count)).toEqual([0, 0, 1, 1]);
+  expect(report.weeks.at(-1)?.start).toEqual(new Date(2026, 10, 9));
+  expect(Object.fromEntries(report.byStatus)).toEqual({ applied: 1, assessment: 0, interview: 1, offer: 0, rejected: 0, withdrawn: 0 });
+});
 
 it('shows the stored salary in its own column and identifies missing salaries', () => {
   render(<ApplicationTable records={[{ ...first, salary: 'RM 4,000 – RM 5,500' }, second]} onOpen={() => {}} />);

@@ -4,7 +4,9 @@ import type { Settings } from '../../lib/settings';
 import type { PendingSummary } from '../../lib/attempts';
 import type { JobRecord, JobSummary } from '../../lib/records';
 import { dashboardStats } from '../../lib/dashboard';
+import { projectUrl } from '../../lib/project';
 import { Stats } from '../../ui/Stats';
+import { ApplicationInsights } from '../../ui/ApplicationInsights';
 import { PendingAttempts } from '../../ui/PendingAttempts';
 import { resolutionText } from '../../ui/notification';
 import { ApplicationTable } from '../../ui/ApplicationTable';
@@ -40,14 +42,17 @@ export default function App() {
 
   return <>
     <header className="app-header"><div className="header-inner">
-      <a className="brand" href="#top"><span className="brand-mark" aria-hidden="true">✓</span> Job Application Tracker</a>
-      <nav aria-label="Dashboard"><a href="#application-log">Applications</a><a href="#data">Data</a><a href="#settings">Settings</a></nav>
+      <a className="brand" href="#top"><img src="/icon/32.png" width="30" height="30" alt="" /> Job Application Tracker</a>
+      <nav aria-label="Dashboard"><a href="#application-log">Application log</a><a href="#data">Data</a><a href="#settings">Settings</a></nav>
     </div></header>
     <main className="workspace" id="top">
       <div className="workspace-title">
-        <div><h1>Applications</h1>
-          <p className="muted">Track the roles you saved, applied for, and heard back from.</p></div>
-        <span className="local-label">Stored on this device</span>
+        <div><p className="eyebrow">Your job search</p><h1>Applications</h1>
+          <p className="muted">See where you’ve applied and what’s moving forward.</p></div>
+        <div className="workspace-actions">
+          <span className="local-label">Stored on this device</span>
+          <button className="primary" onClick={() => setSelection('new')}>+ Add a job</button>
+        </div>
       </div>
       {records && <Stats items={dashboardStats(records)} />}
       {error && <p className="feedback error" role="alert">{error} <button onClick={() => void refresh().then(() => setError(''), reason => setError(String(reason)))}>Retry</button></p>}
@@ -57,12 +62,12 @@ export default function App() {
         setNotice(resolutionText(result));
         await refresh();
       }} />
+      {records && <ApplicationInsights records={records} />}
       <section className="panel" id="application-log" aria-labelledby="log-title">
         <div className="section-heading">
           <div><h2 id="log-title">Application log</h2>
             <p className="muted">Open a job title to review the saved details.</p>
           </div>
-          <button className="primary" onClick={() => setSelection('new')}>+ Add a job</button>
         </div>
         {records ? <ApplicationTable records={records} onOpen={record => {
           void request('getRecord', record.id).then(setSelection, reason => setError(String(reason)));
@@ -71,6 +76,13 @@ export default function App() {
       </section>
       <ExportControls onImport={refresh} />
       {settings && <SettingsPanel settings={settings} onChange={setSettings} onClear={refresh} />}
+      <footer className="dashboard-footer">
+        <div><strong>Job Application Tracker</strong><p>Built for a private job search.</p></div>
+        <nav aria-label="Project links">
+          <a href={projectUrl} target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+          <a href={`${projectUrl}/issues`} target="_blank" rel="noreferrer">Share feedback <span aria-hidden="true">↗</span></a>
+        </nav>
+      </footer>
       {selection && <RecordDialog key={selection === 'new' ? selection : selection.id} selection={selection} records={records ?? []}
         onClose={() => setSelection(undefined)}
         onChange={async message => {

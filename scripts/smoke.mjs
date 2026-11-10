@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
 import { mkdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -284,6 +285,9 @@ try {
   await popup.goto(`${origin}/popup.html`);
   await popup.getByRole('heading', { name: 'Job Application Tracker' }).waitFor();
   await popup.getByText('Unconfirmed', { exact: true }).waitFor();
+  await popup.getByText('No ads', { exact: true }).waitFor();
+  await popup.getByText('No tracking', { exact: true }).waitFor();
+  assert.match(await popup.getByRole('link', { name: 'Source on GitHub' }).getAttribute('href'), /github\.com\/SeHaziq\/Job-Application-Tracker$/);
   await popup.locator('.popup').screenshot({ path: resolve(qa, 'popup-overview.png') });
   await popup.getByRole('button', { name: 'Save current job' }).click();
   await popup.getByLabel('Job title').fill('Data Analyst');
@@ -583,12 +587,37 @@ try {
   await dashboard.getByText('Added 0 and skipped 4 existing or duplicate records.').waitFor();
   console.log('CSV and XLSX downloads, JSON backup and duplicate-safe restore passed.');
 
+  const activity = dashboard.getByRole('list', { name: 'Applications by week, starting Monday' });
+  assert.equal(await activity.getByRole('listitem').count(), 8);
+  await dashboard.getByLabel('Activity range').selectOption('12');
+  assert.equal(await activity.getByRole('listitem').count(), 12);
+  await dashboard.getByLabel('Activity range').selectOption('4');
+  assert.equal(await activity.getByRole('listitem').count(), 4);
+  await dashboard.getByLabel('Activity range').selectOption('8');
+  assert.match(await dashboard.getByRole('link', { name: 'View on GitHub' }).getAttribute('href'), /github\.com\/SeHaziq\/Job-Application-Tracker$/);
+
+  const sample = JSON.parse(await readFile(backup, 'utf8'));
+  sample.records = [8, 9, 10, 16, 17, 23, 24, 25, 26, 35, 37, 43, 44, 50, 51, 52].map((daysAgo, index) => {
+    const applied = new Date();
+    applied.setDate(applied.getDate() - daysAgo);
+    const date = applied.toISOString();
+    return {
+      id: randomUUID(), platform: 'generic', jobTitle: `Fixture role ${index + 1}`, companyName: `Fixture employer ${index + 1}`,
+      status: ['applied', 'interview', 'applied', 'assessment', 'offer', 'rejected'][index % 6],
+      verificationStatus: 'user_confirmed', appliedAt: date, createdAt: date, updatedAt: date,
+    };
+  });
+  assert.equal((await send('importRecords', JSON.stringify(sample))).added, sample.records.length);
+  await dashboard.reload();
+  await dashboard.getByRole('button', { name: 'Fixture role 1', exact: true }).waitFor();
+
   for (const width of [320, 768, 1024, 1440]) {
     await dashboard.setViewportSize({ width, height: 960 });
     assert.ok(await dashboard.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       `Page overflow at ${width}px`);
     if (width === 320 || width === 1440) await dashboard.screenshot({ path: resolve(qa, `dashboard-${width}.png`), fullPage: true });
   }
+  await dashboard.screenshot({ path: resolve(qa, 'dashboard-overview.png') });
 
   await dashboard.getByRole('button', { name: 'JobStreet engineer 55' }).focus();
   await dashboard.keyboard.press('Enter');
@@ -598,6 +627,7 @@ try {
   dashboard.once('dialog', dialog => dialog.accept());
   await dashboard.getByRole('button', { name: 'Clear tracker data' }).click();
   await dashboard.getByText('Your log is empty').waitFor();
+  await dashboard.getByText('No applications in this period', { exact: true }).waitFor();
   assert.equal(await dashboard.getByLabel('Detect on LinkedIn').isChecked(), false);
   assert.equal(await dashboard.getByLabel('Detect on MauKerja').isChecked(), false);
   assert.deepEqual(errors, []);

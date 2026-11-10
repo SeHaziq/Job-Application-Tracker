@@ -1,5 +1,11 @@
 # Local release checklist
 
+## 0.1.14
+
+The dashboard adds weekly application activity, current-status charts, and GitHub project links. The toolbar popup adds a compact privacy and source footer.
+
+The local package is `.output/job-application-tracker-0.1.14-chrome.zip`. Its SHA-256 is `1d23f29032189d1af41e4841bbbe26385bd5eda0ed292cf2007b146d1abe72c9`.
+
 ## 0.1.13
 
 MauKerja detects both Malay and English application actions and success toasts. Cards in View Progress state are excluded from application detection.
