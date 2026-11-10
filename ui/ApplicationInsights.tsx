@@ -14,12 +14,12 @@ export function ApplicationInsights({ records }: { records: JobSummary[] }) {
   return <div className="insights">
     <section className="panel insight" aria-labelledby="activity-title">
       <div className="insight-heading">
-        <div><p className="eyebrow">Activity</p><h2 id="activity-title">Applications over time</h2></div>
-        <select aria-label="Activity range" value={range} onChange={event => setRange(Number(event.target.value))}>
+        <div><h2 id="activity-title">Applications over time</h2>
+          <p className="insight-summary"><strong>{recent}</strong> {recent === 1 ? 'application' : 'applications'} in this period</p></div>
+        <select className="select-small" aria-label="Activity range" value={range} onChange={event => setRange(Number(event.target.value))}>
           <option value={4}>Last 4 weeks</option><option value={8}>Last 8 weeks</option><option value={12}>Last 12 weeks</option>
         </select>
       </div>
-      <p className="insight-summary"><strong>{recent}</strong> {recent === 1 ? 'application' : 'applications'} in this period</p>
       {recent ? <ol className="weekly-chart" aria-label="Applications by week, starting Monday">
         {weeks.map(({ start, count }, index) => <li key={start.getTime()} className={index === weeks.length - 1 ? 'current-week' : undefined}>
           <span className="week-track" aria-hidden="true">
@@ -31,8 +31,8 @@ export function ApplicationInsights({ records }: { records: JobSummary[] }) {
       <p className="chart-note">Weeks start on Monday · Includes the current week</p>
     </section>
     <section className="panel insight" aria-labelledby="status-title">
-      <div className="insight-heading"><div><p className="eyebrow">Pipeline</p><h2 id="status-title">Application status</h2></div></div>
-      <p className="insight-summary muted">Current status across all applications</p>
+      <div className="insight-heading"><div><h2 id="status-title">Application status</h2>
+        <p className="insight-summary">Current status across all applications</p></div></div>
       <ul className="status-chart">
         {byStatus.map(([status, count]) => <li key={status}>
           <div><span>{statusNames[status]}</span><strong>{count}</strong></div>

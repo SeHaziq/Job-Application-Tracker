@@ -7,40 +7,48 @@
   max-height: calc(100vh - 32px);
   overflow: auto;
   padding: 16px;
-  border: 1px solid #c6d7ce;
-  border-top: 4px solid #155740;
-  border-radius: 10px;
+  border: 1px solid #d2dbd4;
+  border-top: 3px solid #124737;
+  border-radius: 12px;
   background: #fff;
-  color: #172b27;
-  box-shadow: 0 8px 24px #142d2726;
+  color: #17231d;
+  box-shadow: 0 24px 64px -20px #071f1966;
   text-align: start;
-  font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+  font: 14px/1.45 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   overflow-wrap: anywhere;
   animation: tracker-enter 160ms ease-out both;
 }
-
 .tracker-head, .tracker-actions { display: flex; align-items: center; gap: 8px; }
-.tracker-head { justify-content: space-between; color: #155740; }
-.tracker-card h2 { font-size: 18px; line-height: 1.25; margin: 8px 0 4px; }
+.tracker-head { justify-content: space-between; color: #195c47; }
+.tracker-card h2 { margin: 8px 0 4px; font-size: 18px; line-height: 1.25; letter-spacing: -.02em; }
 .tracker-card p { margin: 0 0 8px; }
 .tracker-card p:last-child { margin-bottom: 0; }
 .tracker-card button {
-  font: inherit; font-weight: 650; padding: 6px 12px; min-height: 36px; cursor: pointer;
-  color: #172b27; background: #fff; border: 1px solid #c6d7ce; border-radius: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid #c7d0c8;
+  border-radius: 8px;
+  background: #fff;
+  color: #17231d;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
 }
-.tracker-card button:hover { border-color: #155740; }
+.tracker-card button:hover { border-color: #8fa096; background: #f7f8f4; }
 .tracker-card button:disabled { opacity: .55; cursor: wait; }
-.tracker-card button:focus-visible { outline: 2px solid #155740; outline-offset: 2px; }
-.tracker-card .tracker-primary { color: #fff; background: #155740; border-color: #155740; }
-.tracker-card .tracker-primary:hover { background: #0c3f2d; }
-.tracker-card .tracker-close { padding: 0; min-width: 30px; min-height: 30px; border-color: transparent; font-size: 19px; }
+.tracker-card button:focus-visible { outline: 2px solid #2d8266; outline-offset: 2px; }
+.tracker-card .tracker-primary { color: #fff; background: #124737; border-color: #124737; }
+.tracker-card .tracker-primary:hover { background: #0c342a; border-color: #0c342a; }
+.tracker-card .tracker-close { padding: 0; min-width: 30px; min-height: 30px; border-color: transparent; background: transparent; color: #65726a; font-size: 19px; }
+.tracker-card .tracker-close:hover { background: #edf3ee; }
 .tracker-card .tracker-countdown, .tracker-card .tracker-error { margin-top: 8px; font-size: 12px; }
-.tracker-countdown { font-variant-numeric: tabular-nums; color: #4d6159; }
-.tracker-countdown-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-.tracker-error { color: #9a3027; }
+.tracker-countdown { color: #65726a; font-variant-numeric: tabular-nums; }
+.tracker-countdown-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+.tracker-error { color: #9e3b32; }
 .tracker-countdown progress { appearance: none; display: block; width: 100%; height: 3px; border: 0; }
-.tracker-countdown progress::-webkit-progress-bar { background: #edf2ef; border-radius: 3px; }
-.tracker-countdown progress::-webkit-progress-value { background: #93bea8; border-radius: 3px; }
+.tracker-countdown progress::-webkit-progress-bar { background: #e8ede8; border-radius: 3px; }
+.tracker-countdown progress::-webkit-progress-value { background: #397b61; border-radius: 3px; }
+.tracker-countdown progress::-moz-progress-bar { background: #397b61; border-radius: 3px; }
 
 @keyframes tracker-enter {
   from { opacity: 0; transform: translateY(-6px); }

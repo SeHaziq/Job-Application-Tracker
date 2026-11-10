@@ -5,14 +5,15 @@ import type { PendingSummary } from '../../lib/attempts';
 import type { JobRecord, JobSummary } from '../../lib/records';
 import { dashboardStats } from '../../lib/dashboard';
 import { projectUrl } from '../../lib/project';
-import { Stats } from '../../ui/Stats';
 import { ApplicationInsights } from '../../ui/ApplicationInsights';
-import { PendingAttempts } from '../../ui/PendingAttempts';
-import { resolutionText } from '../../ui/notification';
 import { ApplicationTable } from '../../ui/ApplicationTable';
-import { SettingsPanel } from '../../ui/SettingsPanel';
-import { RecordDialog } from '../../ui/RecordDialog';
 import { ExportControls } from '../../ui/ExportControls';
+import { Icon } from '../../ui/Icon';
+import { PendingAttempts } from '../../ui/PendingAttempts';
+import { RecordDialog } from '../../ui/RecordDialog';
+import { SettingsPanel } from '../../ui/SettingsPanel';
+import { Stats } from '../../ui/Stats';
+import { resolutionText } from '../../ui/notification';
 
 export default function App() {
   const [settings, setSettings] = useState<Settings>();
@@ -42,20 +43,30 @@ export default function App() {
 
   return <>
     <header className="app-header"><div className="header-inner">
-      <a className="brand" href="#top"><img src="/icon/32.png" width="30" height="30" alt="" /> Job Application Tracker</a>
-      <nav aria-label="Dashboard"><a href="#application-log">Application log</a><a href="#data">Data</a><a href="#settings">Settings</a></nav>
+      <a className="brand" href="#top">
+        <img className="brand-mark" src="/icon/48.png" width="32" height="32" alt="" />
+        <span className="brand-text"><strong>Job Application Tracker</strong><small>Private job search</small></span>
+      </a>
+      <nav className="app-nav" aria-label="Dashboard">
+        <a href="#application-log">Application log</a><a href="#data">Data</a><a href="#settings">Settings</a>
+      </nav>
     </div></header>
     <main className="workspace" id="top">
       <div className="workspace-title">
-        <div><p className="eyebrow">Your job search</p><h1>Applications</h1>
-          <p className="muted">See where you’ve applied and what’s moving forward.</p></div>
+        <div className="page-intro"><h1>Applications</h1>
+          <p>See where you’ve applied and what’s moving forward.</p></div>
         <div className="workspace-actions">
-          <span className="local-label">Stored on this device</span>
-          <button className="primary" onClick={() => setSelection('new')}>+ Add a job</button>
+          <span className="local-label"><Icon name="lock" size={14} />Stored on this device</span>
+          <button className="primary" onClick={() => setSelection('new')}><Icon name="plus" size={16} />Add a job</button>
         </div>
       </div>
-      {records && <Stats items={dashboardStats(records)} />}
-      {error && <p className="feedback error" role="alert">{error} <button onClick={() => void refresh().then(() => setError(''), reason => setError(String(reason)))}>Retry</button></p>}
+      {records && <section className="summary-panel" aria-label="Application summary">
+        <Stats items={dashboardStats(records)} />
+      </section>}
+      {error && <p className="feedback error" role="alert">
+        <span>{error}</span>
+        <button className="feedback-action" onClick={() => void refresh().then(() => setError(''), reason => setError(String(reason)))}>Retry</button>
+      </p>}
       {notice && <p className="feedback" role="status">{notice}</p>}
       <PendingAttempts attempts={pending} onDecision={async (id, decision) => {
         const result = await request('decideAttempt', { id, decision });
@@ -74,13 +85,20 @@ export default function App() {
         }} /> :
           !error && <p className="loading" role="status">Loading your log…</p>}
       </section>
-      <ExportControls onImport={refresh} />
-      {settings && <SettingsPanel settings={settings} onChange={setSettings} onClear={refresh} />}
+      {settings
+        ? <div className="utility-grid">
+          <ExportControls onImport={refresh} />
+          <SettingsPanel settings={settings} onChange={setSettings} onClear={refresh} />
+        </div>
+        : <ExportControls onImport={refresh} />}
       <footer className="dashboard-footer">
-        <div><strong>Job Application Tracker</strong><p>Built for a private job search.</p></div>
+        <div className="footer-brand">
+          <img src="/icon/32.png" width="24" height="24" alt="" />
+          <div><strong>Job Application Tracker</strong><p>Built for a private job search.</p></div>
+        </div>
         <nav aria-label="Project links">
-          <a href={projectUrl} target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
-          <a href={`${projectUrl}/issues`} target="_blank" rel="noreferrer">Share feedback <span aria-hidden="true">↗</span></a>
+          <a href={projectUrl} target="_blank" rel="noreferrer">View on GitHub <Icon name="arrowUpRight" size={14} /></a>
+          <a href={`${projectUrl}/issues`} target="_blank" rel="noreferrer">Share feedback <Icon name="arrowUpRight" size={14} /></a>
         </nav>
       </footer>
       {selection && <RecordDialog key={selection === 'new' ? selection : selection.id} selection={selection} records={records ?? []}

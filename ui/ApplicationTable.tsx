@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { platformNames } from '../lib/platforms';
 import { statuses, statusNames, verifications, verificationNames, type JobSummary } from '../lib/records';
 import { similarKey } from '../lib/dashboard';
+import { Icon } from './Icon';
+import { PlatformLogo } from './PlatformLogo';
 
 const pageSize = 25;
 const date = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' });
@@ -40,6 +42,15 @@ export function ApplicationTable({ records, onOpen }: { records: JobSummary[]; o
   const maxPage = Math.max(0, Math.ceil(visible.length / pageSize) - 1);
   const current = Math.min(page, maxPage);
   const start = current * pageSize;
+
+  function clearFilters() {
+    setSearch('');
+    setPlatform('');
+    setStatus('');
+    setVerification('');
+    setSort('latest');
+    setPage(0);
+  }
 
   return <>
     <div className="filter-bar">
@@ -80,7 +91,7 @@ export function ApplicationTable({ records, onOpen }: { records: JobSummary[]; o
                 {key && (duplicateCounts.get(key) ?? 0) > 1 && <span className="duplicate-label">Possible duplicate</span>}
               </td>
               <td className="salary-cell">{record.salary || <span aria-label="Salary unavailable">—</span>}</td>
-              <td>{platformNames[record.platform]}</td>
+              <td className="platform-cell"><PlatformLogo platform={record.platform} size={16} />{platformNames[record.platform]}</td>
               <td className="date-cell">{record.appliedAt ? date.format(new Date(record.appliedAt)) : '—'}</td>
               <td><span className={`badge badge-${record.status}`}>{statusNames[record.status]}</span></td>
               <td>{record.verificationStatus
@@ -91,15 +102,17 @@ export function ApplicationTable({ records, onOpen }: { records: JobSummary[]; o
         </table>
       </div>
       <footer className="table-footer">
-        <span className="muted">{start + 1}–{Math.min(start + pageSize, visible.length)} of {visible.length} records</span>
+        <span className="muted" aria-live="polite">{start + 1}–{Math.min(start + pageSize, visible.length)} of {visible.length} records</span>
         {maxPage > 0 && <div className="actions">
-          <button onClick={() => setPage(current - 1)} disabled={current === 0}>Previous</button>
-          <button onClick={() => setPage(current + 1)} disabled={current === maxPage}>Next</button>
+          <button onClick={() => setPage(current - 1)} disabled={current === 0}><Icon name="chevronLeft" size={15} />Previous</button>
+          <button onClick={() => setPage(current + 1)} disabled={current === maxPage}>Next<Icon name="chevronRight" size={15} /></button>
         </div>}
       </footer>
     </> : <div className="empty" role="status">
+      <span className="empty-icon"><Icon name="list" size={22} /></span>
       <h3>{records.length ? 'No matching records' : 'Your log is empty'}</h3>
       <p className="muted">{records.length ? 'Try a different search or clear a filter.' : 'Add a job here or use Save current job from the extension toolbar.'}</p>
+      {records.length > 0 && <button className="empty-action" onClick={clearFilters}>Clear filters</button>}
     </div>}
   </>;
 }

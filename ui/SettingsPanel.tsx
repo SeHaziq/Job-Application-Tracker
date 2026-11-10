@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { request } from '../lib/messages';
 import { platformNames, supportedPlatforms } from '../lib/platforms';
 import { countdownOptions, type Countdown, type Settings, type SettingsPatch } from '../lib/settings';
+import { Icon } from './Icon';
+import { PlatformLogo } from './PlatformLogo';
 
 interface Props {
   settings: Settings;
@@ -45,9 +47,10 @@ export function SettingsPanel({ settings, onChange, onClear }: Props) {
   }
 
   return <section id="settings" className="panel preferences" aria-labelledby="settings-title">
-    <div className="section-heading"><div><p className="eyebrow">Preferences</p><h2 id="settings-title">Detection settings</h2></div></div>
+    <div className="section-heading"><div><h2 id="settings-title">Detection settings</h2>
+      <p className="muted">Choose how the tracker watches supported job sites.</p></div></div>
     <div className="settings-grid">
-      <div>
+      <div className="setting-group">
         <h3>Confirmation timer</h3>
         <p className="muted">When the site outcome is unclear, save the attempt as unconfirmed after this delay. Choose Off to decide manually.</p>
         <label className="setting-field">Auto-save after<select disabled={busy} value={settings.autoSaveSeconds ?? 'off'} onChange={event => {
@@ -57,13 +60,16 @@ export function SettingsPanel({ settings, onChange, onClear }: Props) {
           {countdownOptions.map(seconds => <option key={seconds ?? 'off'} value={seconds ?? 'off'}>{seconds === null ? 'Off' : `${seconds} seconds`}</option>)}
         </select></label>
       </div>
-      <div>
+      <div className="setting-group">
         <h3>Website detection</h3>
-        {supportedPlatforms.map(platform => <label className="check" key={platform}>
+        <p className="muted">Only the supported sites selected here are watched.</p>
+        <div className="detection-list">{supportedPlatforms.map(platform => <label className="check platform-check" key={platform}>
           <input type="checkbox" checked={settings.enabled[platform]} disabled={busy} onChange={event => {
             void save({ enabled: { [platform]: event.target.checked } });
-          }} /> Detect on {platformNames[platform]}
-        </label>)}
+          }} />
+          <PlatformLogo platform={platform} size={18} />
+          <span>Detect on {platformNames[platform]}</span>
+        </label>)}</div>
       </div>
     </div>
     <div className="privacy-row">
@@ -71,9 +77,9 @@ export function SettingsPanel({ settings, onChange, onClear }: Props) {
         <p className="muted">Records stay in this browser profile. Detection reads listing details and submission feedback. It does not read your form answers or upload files.</p>
         <p className="muted">Export a JSON backup before clearing the log.</p>
       </div>
-      <button className="danger" disabled={busy} onClick={() => void clear()}>Clear tracker data</button>
+      <button className="danger" disabled={busy} onClick={() => void clear()}><Icon name="alert" size={16} />Clear tracker data</button>
     </div>
-    {message && <p className="feedback" role="status">{message}</p>}
-    {error && <p className="feedback error" role="alert">{error}</p>}
+    {message && <p className="feedback-inline" role="status"><Icon name="check" size={15} />{message}</p>}
+    {error && <p className="feedback-inline error" role="alert"><Icon name="alert" size={15} />{error}</p>}
   </section>;
 }

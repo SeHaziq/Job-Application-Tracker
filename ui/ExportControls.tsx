@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { backupLimit, backupText, csvText, spreadsheetRows } from '../lib/export';
 import { request } from '../lib/messages';
 import type { JobRecord } from '../lib/records';
+import { Icon } from './Icon';
 
 type ExportFormat = 'csv' | 'xlsx' | 'json';
 
@@ -59,15 +60,15 @@ export function ExportControls({ onImport }: { onImport(): Promise<void> }) {
 
   return <section className="panel export-panel" id="data" aria-labelledby="data-heading">
     <div className="section-heading">
-      <div><p className="eyebrow">Your data</p><h2 id="data-heading">Export and backup</h2>
+      <div><h2 id="data-heading">Export and backup</h2>
         <p className="muted">Export the whole log or restore records from a tracker backup.</p></div>
     </div>
     <div className="export-body">
-      <div className="actions">
-        <button disabled={busy} onClick={() => void exportFile('csv')}>Export CSV</button>
-        <button disabled={busy} onClick={() => void exportFile('xlsx')}>Export XLSX</button>
-        <button disabled={busy} onClick={() => void exportFile('json')}>Back up JSON</button>
-        <button disabled={busy} onClick={() => fileInput.current?.click()}>Restore JSON</button>
+      <div className="export-actions">
+        <button disabled={busy} onClick={() => void exportFile('csv')}><Icon name="download" size={16} />Export CSV</button>
+        <button disabled={busy} onClick={() => void exportFile('xlsx')}><Icon name="download" size={16} />Export XLSX</button>
+        <button disabled={busy} onClick={() => void exportFile('json')}><Icon name="download" size={16} />Back up JSON</button>
+        <button disabled={busy} onClick={() => fileInput.current?.click()}><Icon name="upload" size={16} />Restore JSON</button>
       </div>
       <input ref={fileInput} type="file" accept=".json,application/json" hidden onChange={event => {
         const file = event.target.files?.[0];
@@ -80,9 +81,9 @@ export function ExportControls({ onImport }: { onImport(): Promise<void> }) {
           return `Added ${result.added} and skipped ${result.skipped} existing or duplicate records.`;
         });
       }} />
-      {busy && <p className="muted" role="status">Working…</p>}
-      {message && <p role="status">{message}</p>}
-      {error && <p className="error" role="alert">{error}</p>}
+      {busy && <p className="export-status muted" role="status">Working…</p>}
+      {message && <p className="export-status" role="status"><Icon name="check" size={15} />{message}</p>}
+      {error && <p className="export-status error" role="alert"><Icon name="alert" size={15} />{error}</p>}
     </div>
   </section>;
 }
