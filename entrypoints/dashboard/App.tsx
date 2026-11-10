@@ -13,6 +13,7 @@ import { PendingAttempts } from '../../ui/PendingAttempts';
 import { RecordDialog } from '../../ui/RecordDialog';
 import { SettingsPanel } from '../../ui/SettingsPanel';
 import { Stats } from '../../ui/Stats';
+import { StoreRating } from '../../ui/StoreRating';
 import { resolutionText } from '../../ui/notification';
 
 export default function App() {
@@ -99,6 +100,7 @@ export default function App() {
         <nav aria-label="Project links">
           <a href={projectUrl} target="_blank" rel="noreferrer">View on GitHub <Icon name="arrowUpRight" size={14} /></a>
           <a href={`${projectUrl}/issues`} target="_blank" rel="noreferrer">Share feedback <Icon name="arrowUpRight" size={14} /></a>
+          <StoreRating />
         </nav>
       </footer>
       {selection && <RecordDialog key={selection === 'new' ? selection : selection.id} selection={selection} records={records ?? []}

@@ -1,5 +1,6 @@
 import { extractJob } from './detectors';
 import { jobstreetApplyId } from './detectors/jobstreet';
+import { jobstreetListingFragment } from './detectors/listing-html';
 import { platformOf } from './platforms';
 import type { CapturedJob } from './records';
 
@@ -37,10 +38,7 @@ export async function fetchJobstreetListing(doc: Document, url: string, fetchLis
     if (!response.ok) return null;
     const html = await response.text();
     if (html.length > 4_000_000) return null;
-    // The fetched markup stays in a detached template so only its listing fields are read.
-    const template = doc.implementation.createHTMLDocument().createElement('template');
-    template.innerHTML = html;
-    return extractJob(template.content, url);
+    return extractJob(jobstreetListingFragment(doc, html), url);
   } catch {
     return null;
   }

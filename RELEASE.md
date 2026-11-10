@@ -13,6 +13,16 @@ git push origin v0.1.15
 
 Branch pushes run the checks and build the ZIP. Follow the tag run under **Actions → Edge release**. A successful run means Partner Center created a review submission. Check Partner Center for certification and store availability. Wait for an existing review to finish before sending another release. If the API key expires, renew it in Partner Center and replace `EDGE_API_KEY` in GitHub.
 
+The Edge build is `.output/edge-mv3` and the package ends in `-edge.zip`. For Mozilla review, build with `npm.cmd run zip -- -b firefox --mv3` and upload the Firefox package with its separate source ZIP.
+
+## 0.1.18
+
+This release adds the Edge rating link and the Firefox package. Listing markup is parsed as data, and the Firefox build disables bundled runtime schema compilation and raw HTML rendering.
+
+- Edge ZIP `.output/job-application-tracker-0.1.18-edge.zip`
+- Firefox ZIP `.output/job-application-tracker-0.1.18-firefox.zip`
+- Mozilla reviewer source ZIP `.output/job-application-tracker-0.1.18-sources.zip`
+
 ## 0.1.15
 
 The popup includes local icons for MauKerja, JobStreet, LinkedIn, and MYFutureJobs. The local storage settings use browser-neutral wording.

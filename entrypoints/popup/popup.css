@@ -116,6 +116,7 @@ body { background: var(--surface); }
   text-decoration: none;
 }
 .popup-footer a:hover { color: var(--brand-950); text-decoration: underline; }
+.popup-rate { display: flex; justify-content: center; padding: 0 0 3px; font-size: .72rem; }
 .popup-trust {
   display: flex;
   align-items: center;

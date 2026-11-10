@@ -32,7 +32,7 @@ jobs:
       - run: npm.cmd run typecheck
       - run: npm.cmd run lint
       - run: npm.cmd test
-      - run: npm.cmd run zip
+      - run: npm.cmd run zip -- -b edge --mv3
       - name: Submit to Microsoft Edge Add-ons
         if: github.ref_type == 'tag'
         env:

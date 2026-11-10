@@ -42,7 +42,7 @@ Automatically detects applications on supported platforms, with manual tracking 
 1. Download and extract the release ZIP, or build the project.
 2. Open `edge://extensions` or `chrome://extensions`.
 3. Enable **Developer mode** → **Load unpacked**.
-4. Select `.output/chrome-mv3` or the extracted folder containing `manifest.json`.
+4. Select `.output/edge-mv3` for the default Edge build or the extracted folder containing `manifest.json`.
 
 Pin the extension to your toolbar and reload any existing job tabs.
 

@@ -5,7 +5,8 @@ import { resolve } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
 
-const extension = resolve('.output/chrome-mv3');
+const edge = process.env.JAT_SMOKE_EDGE === '1';
+const extension = resolve(edge ? '.output/edge-mv3' : '.output/chrome-mv3');
 const qa = resolve('.output/qa');
 await mkdir(qa, { recursive: true });
 
@@ -13,7 +14,6 @@ await mkdir(qa, { recursive: true });
 process.env.TEMP = qa;
 process.env.TMP = qa;
 
-const edge = process.env.JAT_SMOKE_EDGE === '1';
 const browser = await chromium.launchPersistentContext('', {
   channel: edge ? 'msedge' : 'chromium',
   headless: true,
@@ -211,7 +211,8 @@ try {
   }, { type, input });
 
   if (edge) {
-    await browser.route('https://example.test/', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Unsupported site</title>' }));
+    await browser.route('https://example.test/', route => route.fulfill({ contentType: 'text/html', body: `<!doctype html><title>Unsupported site</title>
+      <script type="application/ld+json">{"@type":"JobPosting","title":"Generic listing fixture","description":"<p>Plan and build.</p>"}</script>` }));
     const listing = await browser.newPage();
     const url = 'https://my.jobstreet.com/job/58';
     await listing.goto(url);
@@ -268,6 +269,10 @@ try {
     assert.ok(expanded.overflow <= 0);
     await listing.goto('https://example.test/');
     await eventually(toolbarTitle, title => title === 'Job Application Tracker', 'Toolbar action did not reset after leaving the supported site');
+    await openAction(listing.url());
+    await eventually(measure, view => view?.host === 'example.test', 'Generic listing toolbar popup did not open');
+    await clickSave();
+    await eventually(measure, view => view?.title === 'Generic listing fixture', 'Generic activeTab capture did not autofill');
     await listing.goBack();
     await eventually(toolbarTitle, supported, 'Toolbar action did not recover on back navigation');
     await listing.goto('https://www.maukerja.my/jobsearch/executive-assistant-jobs');

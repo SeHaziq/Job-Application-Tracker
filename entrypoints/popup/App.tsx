@@ -9,6 +9,7 @@ import { Icon } from '../../ui/Icon';
 import { JobForm } from '../../ui/JobForm';
 import { PlatformLogo } from '../../ui/PlatformLogo';
 import { Stats } from '../../ui/Stats';
+import { StoreRating } from '../../ui/StoreRating';
 
 export default function App() {
   const [tab, setTab] = useState<Awaited<ReturnType<typeof currentTab>>>();
@@ -101,6 +102,7 @@ export default function App() {
           Open dashboard
           <Icon name="arrowRight" size={17} />
         </a>
+        <div className="popup-rate"><StoreRating /></div>
         <ul className="popup-trust" aria-label="Project and privacy">
           <li><Icon name="shieldCheck" size={14} />No ads</li>
           <li><Icon name="lock" size={14} />No tracking</li>

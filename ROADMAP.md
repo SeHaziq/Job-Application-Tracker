@@ -101,3 +101,9 @@ The dashboard charts weekly applications and current status from local records. 
 The popup shows locally bundled icons for supported websites. The local storage settings refer to the browser profile.
 
 GitHub Actions builds branch pushes and submits version tags from `main` to Microsoft Edge Add-ons. The first live workflow run still needs verification in GitHub and Partner Center.
+
+## Firefox package
+
+Firefox Manifest V3 uses the shared tracker code and a separate add-on ID. The build creates an extension ZIP and a source ZIP for Mozilla Add-ons. Live job-site verification and Mozilla review are separate steps.
+
+The Firefox package parses listing markup as data and disables bundled dynamic code and raw HTML paths flagged by Mozilla. Edge builds now use the Edge target and artifact names.

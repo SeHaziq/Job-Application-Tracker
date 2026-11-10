@@ -1,5 +1,5 @@
 import { browser } from 'wxt/browser';
-import { readPosting } from './detectors/structured';
+import { postingSources, readPosting } from './detectors/structured';
 import { platformOf } from './platforms';
 import { detectors } from './detectors';
 import type { CapturedJob } from './records';
@@ -30,8 +30,9 @@ export async function captureTab(tab: Awaited<ReturnType<typeof currentTab>>): P
   // Search-page metadata can describe a vacancy other than the selected card.
   if (platform === 'maukerja' && isMaukerjaSearch(new URL(jobUrl))) return fallback;
   try {
-    const [capture] = await browser.scripting.executeScript({ target: { tabId }, func: readPosting });
-    return { ...fallback, ...capture?.result, externalJobId: externalJobId ?? capture?.result?.externalJobId };
+    const [capture] = await browser.scripting.executeScript({ target: { tabId }, func: postingSources });
+    const job = capture?.result ? readPosting(capture.result, jobUrl) : null;
+    return { ...fallback, ...job, externalJobId: externalJobId ?? job?.externalJobId };
   } catch {
     return fallback;
   }

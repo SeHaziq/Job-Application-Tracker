@@ -1,9 +1,15 @@
 import type { CapturedJob } from '../records';
+import { listingText } from './listing-html';
 
 type PostingFields = Omit<CapturedJob, 'platform'>;
 
-// Chrome serializes this function for a one-time, user-initiated activeTab capture.
-export function readPosting(doc: Document | DocumentFragment = document, href = location.href): PostingFields | null {
+// The browser serializes this self-contained function for a user-initiated activeTab capture.
+export function postingSources(doc: ParentNode = document) {
+  return Array.from(doc.querySelectorAll('script[type="application/ld+json"]')).slice(0, 24)
+    .map(script => script.textContent).filter(source => source && source.length <= 2_000_000);
+}
+
+export function readPosting(doc: ParentNode | ReturnType<typeof postingSources>, href: string): PostingFields | null {
   type Data = Record<string, unknown>;
   const object = (value: unknown): Data => value && typeof value === 'object' && !Array.isArray(value) ? value as Data : {};
   const array = (value: unknown): unknown[] => Array.isArray(value) ? value : value == null ? [] : [value];
@@ -12,17 +18,7 @@ export function readPosting(doc: Document | DocumentFragment = document, href = 
     const source = string(value);
     if (!source) return;
     if (!source.includes('<') && !source.includes('&')) return source;
-    // Template contents are inert and are never mounted on the page.
-    const owner = doc instanceof Document ? doc : doc.ownerDocument;
-    const template = owner.implementation.createHTMLDocument().createElement('template');
-    try {
-      template.innerHTML = source;
-    } catch {
-      return source;
-    }
-    template.content.querySelectorAll('script, style, iframe').forEach(element => element.remove());
-    template.content.querySelectorAll('p, div, li, br, h1, h2, h3, h4, tr').forEach(element => element.after('\n'));
-    return template.content.textContent?.split('\n').map(line => line.replace(/[\t ]+/g, ' ').trim()).filter(Boolean).join('\n') || undefined;
+    return listingText(source).split('\n').map(line => line.replace(/[\t ]+/g, ' ').trim()).filter(Boolean).join('\n') || undefined;
   };
   const postings: Data[] = [];
   function collect(value: unknown, depth: number) {
@@ -37,9 +33,8 @@ export function readPosting(doc: Document | DocumentFragment = document, href = 
       }
     }
   }
-  for (const script of Array.from(doc.querySelectorAll('script[type="application/ld+json"]')).slice(0, 24)) {
-    const source = script.textContent;
-    if (!source || source.length > 2_000_000) continue;
+  for (const source of Array.isArray(doc) ? doc : postingSources(doc)) {
+    if (!source) continue;
     try {
       collect(JSON.parse(source), 0);
     } catch {

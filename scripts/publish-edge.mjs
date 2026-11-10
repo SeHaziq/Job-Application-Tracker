@@ -8,7 +8,7 @@ if (!EDGE_API_KEY || !EDGE_CLIENT_ID || !EDGE_PRODUCT_ID) {
 }
 if (!new RegExp(`^${guid}$`, 'i').test(EDGE_PRODUCT_ID)) throw new Error('EDGE_PRODUCT_ID must be the Partner Center Product ID (GUID).');
 
-const { version } = JSON.parse(await readFile('.output/chrome-mv3/manifest.json', 'utf8'));
+const { version } = JSON.parse(await readFile('.output/edge-mv3/manifest.json', 'utf8'));
 if (!/^\d+\.\d+\.\d+$/.test(version) || GITHUB_REF_NAME !== `v${version}`) {
   throw new Error(`The release tag must match the built manifest version v${version}.`);
 }
@@ -43,7 +43,7 @@ async function submitAndWait(label, path, contentType, body) {
   throw new Error(`${label} is still pending. Check operation ${operation} in Partner Center before retrying.`);
 }
 
-const zip = await readFile(`.output/job-application-tracker-${version}-chrome.zip`);
+const zip = await readFile(`.output/job-application-tracker-${version}-edge.zip`);
 await submitAndWait('Package upload', '/draft/package', 'application/zip', zip);
 await submitAndWait('Review submission', '', 'application/json', JSON.stringify({ notes: `Release v${version}` }));
 console.log(`Edge accepted v${version} for review. Check Partner Center for certification and store availability.`);

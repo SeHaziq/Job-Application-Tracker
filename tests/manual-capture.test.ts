@@ -1,11 +1,21 @@
 // @vitest-environment jsdom
 import { expect, it, vi } from 'vitest';
 import { captureListing } from '../lib/manual-capture';
+import { jobstreetListingFragment } from '../lib/detectors/listing-html';
 
 const apply = 'https://my.jobstreet.com/job/123456/apply?sol=application-tracking';
 const listing = 'https://my.jobstreet.com/job/123456';
 const applicationForm = () => new DOMParser().parseFromString('<main><h1>Apply for this job</h1><form><input></form></main>', 'text/html');
 const detail = '<h1 data-automation="job-detail-title">Data Analyst</h1><p data-automation="advertiser-name">Employer</p><div data-automation="jobAdDetails">Analyse job data.</div>';
+
+it('extracts fetched JobStreet fields without creating remote resource or executable nodes', () => {
+  const fragment = jobstreetListingFragment(document, `${detail}<img src="https://example.test/pixel" onerror="alert(1)">
+    <iframe src="https://example.test/"></iframe><script>alert(1)</script>
+    <script type="application/ld+json">{"@type":"JobPosting","title":"Data Analyst"}</script>`);
+  expect(fragment.querySelector('[data-automation="job-detail-title"]')?.textContent).toBe('Data Analyst');
+  expect(fragment.querySelector('img, iframe, script:not([type="application/ld+json"])')).toBeNull();
+  expect(fragment.querySelector('script')?.textContent).toContain('JobPosting');
+});
 
 it('fills JobStreet application pages from the public listing on the same origin', async () => {
   const fetchListing = vi.fn(async () => new Response(detail));
