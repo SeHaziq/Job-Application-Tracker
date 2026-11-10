@@ -21,6 +21,7 @@ export function readSettings(value: unknown): Settings {
       linkedin: input?.enabled?.linkedin !== false,
       jobstreet: input?.enabled?.jobstreet !== false,
       myfuturejobs: input?.enabled?.myfuturejobs !== false,
+      maukerja: input?.enabled?.maukerja !== false,
     },
   };
 }

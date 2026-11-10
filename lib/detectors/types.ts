@@ -8,11 +8,12 @@ export interface SiteDetector {
   externalId(url: URL): string | undefined;
   read(doc: ParentNode, url: URL): Omit<CapturedJob, 'platform'>;
   flow: {
-    start: RegExp;
+    start?: RegExp;
+    inListing?(button: Element, url: URL): boolean;
     final: RegExp;
-    success: RegExp;
-    feedback: string;
-    inApplication(button: Element, url: URL): boolean;
+    success?: RegExp;
+    feedback?: string;
+    inApplication(button: Element, url: URL, label: string): boolean;
   };
 }
 

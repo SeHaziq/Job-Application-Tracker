@@ -4,14 +4,16 @@ import { webUrl } from '../urls';
 import { jobstreet } from './jobstreet';
 import { linkedin } from './linkedin';
 import { myfuturejobs } from './myfuturejobs';
+import { maukerja, isMaukerjaSearch } from './maukerja';
 import { readPosting } from './structured';
 
-export const detectors = { linkedin, jobstreet, myfuturejobs };
+export const detectors = { linkedin, jobstreet, myfuturejobs, maukerja };
 
 export function extractJob(doc: Document | DocumentFragment, href: string): CapturedJob | null {
   const url = new URL(href);
   const platform = platformOf(href);
-  const structured = readPosting(doc, href);
+  // A search page can expose posting metadata for a different vacancy behind the modal.
+  const structured = platform === 'maukerja' && isMaukerjaSearch(url) ? null : readPosting(doc, href);
   if (platform === 'generic') return structured ? { ...structured, platform, jobUrl: webUrl(href) } : null;
 
   const detector = detectors[platform];

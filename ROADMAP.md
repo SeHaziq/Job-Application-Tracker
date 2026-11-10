@@ -71,3 +71,23 @@ LinkedIn search results track the selected vacancy through the native Easy Apply
 ## 0.1.8 — LinkedIn listing autofill
 
 The selected result's job link and nearby listing details supply the title, employer and location for manual capture and Easy Apply on the newer layout. Live capture remains to be checked.
+
+## 0.1.9 — MauKerja
+
+MauKerja listing capture uses the selected search modal. Mohon Segera creates a pending attempt for user confirmation. Live signed-in capture and submission remain to be checked.
+
+## 0.1.10 — MauKerja application popup
+
+Mohon captures a draft when opening the application popup. Hantar Sekarang starts confirmation tracking. The one-click Mohon Segera flow is covered by the same browser smoke test. Live signed-in verification remains open.
+
+## 0.1.11 — MauKerja inline listing capture
+
+Save current job reads the result card whose job ID matches the selected vacancy, including when MauKerja opens the details beside the search results. The Edge fixture includes two cards with the same job title and different employers. Live signed-in verification remains open.
+
+## 0.1.12 — MauKerja direct card applications
+
+Mohon on a search card binds the draft to the clicked card. Hantar Sekarang retains that vacancy even when the details pane shows a different job. A fresh success toast confirms the application. The new direct-card flow still needs signed-in verification.
+
+## 0.1.13 — MauKerja English labels
+
+The search card's apply state and button class distinguish application actions from progress. The English Apply Job, Apply Now, Submit Now, and success toast join the Malay flow. Live English submission still needs verification.

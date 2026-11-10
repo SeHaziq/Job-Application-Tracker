@@ -74,3 +74,38 @@ it('reads the live MYFutureJobs vacancy panel on the search detail route', () =>
     jobDescription: 'Analyse job data.', employmentType: 'Permanent', salary: 'RM 2,600', externalJobId: 'abcd',
   });
 });
+
+it('uses the selected MauKerja modal rather than the background listing or applicant card', () => {
+  const doc = fixture(`<h1>Data Analyst Jobs</h1><script type="application/ld+json">{"@type":"JobPosting","title":"Background job"}</script>
+    <div class="modal is-active"><div class="modal-content"><div class="lg:sticky lg:top-6">
+      <div><h2>Executive Assistant</h2>\n<a href="/company/northwind">Northwind</a></div>
+      <div><div>$ MYR2,500 - MYR3,500 Sebulan</div><div>Sepenuh Masa</div>
+        <div>Bandar Kuala Lumpur, WP Kuala Lumpur</div><div>Posted 4 days ago • Closing 1 Dec</div></div>
+      <div>Mohon kerja ini sebagai: Applicant profile</div><button type="button">Mohon Segera</button>
+    </div></div></div>`);
+  const search = 'https://www.maukerja.my/jobsearch/data-analyst-jobs-in-kuala-lumpur';
+  expect(extractJob(doc, `${search}?curentJobId=QldTOw3DOV`)).toMatchObject({
+    platform: 'maukerja', externalJobId: 'QldTOw3DOV', jobTitle: 'Executive Assistant', companyName: 'Northwind',
+    salary: 'MYR2,500 - MYR3,500 Sebulan', employmentType: 'Sepenuh Masa', jobLocation: 'Bandar Kuala Lumpur, WP Kuala Lumpur',
+  });
+  doc.querySelector('.modal')!.classList.remove('is-active');
+  expect(extractJob(doc, `${search}?curentJobId=QldTOw3DOV`)).toBeNull();
+});
+
+it('reads the matching MauKerja search card by job ID when the details panel is inline', () => {
+  const doc = fixture(`<h1>Search results</h1>
+    <mkrb-job-card job-id="46E1xTqQG1" job-title="Executive Assistant" company="Kean How Believe"></mkrb-job-card>
+    <mkrb-job-card job-id="QldTOw3DOV" job-title="Executive Assistant" company="Kang Li Sdn Bhd"
+      salary="MYR2,500 - MYR3,500 Sebulan" job-types='[{"label":"Sepenuh Masa","href":"/jobsearch/full-time-jobs"}]'
+      locations='[{"label":"KL City"},{"label":"WP Kuala Lumpur"}]'></mkrb-job-card>
+    <aside><h2>Executive Assistant</h2><p>Kang Li Sdn Bhd</p></aside>`);
+  const search = 'https://www.maukerja.my/jobsearch/executive-assistant-jobs';
+  expect(extractJob(doc, `${search}?curentJobId=QldTOw3DOV`)).toMatchObject({
+    platform: 'maukerja', externalJobId: 'QldTOw3DOV', jobTitle: 'Executive Assistant', companyName: 'Kang Li Sdn Bhd',
+    salary: 'MYR2,500 - MYR3,500 Sebulan', employmentType: 'Sepenuh Masa', jobLocation: 'KL City, WP Kuala Lumpur',
+  });
+  expect(extractJob(doc, `${search}?curentJobId=missing`)).toBeNull();
+  expect(extractJob(doc, search)).toBeNull();
+  doc.querySelector('[job-id="QldTOw3DOV"]')!.setAttribute('locations', '{invalid');
+  expect(extractJob(doc, `${search}?curentJobId=QldTOw3DOV`)).toMatchObject({ companyName: 'Kang Li Sdn Bhd' });
+});

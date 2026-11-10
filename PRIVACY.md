@@ -1,6 +1,6 @@
 # Privacy
 
-Job Application Tracker stores your job records, job descriptions, application outcomes, and notes locally in your Chrome profile. It uses these details to capture jobs, track application status, and support backup and export.
+Job Application Tracker stores your job records, job descriptions, application outcomes, and notes locally in your browser profile. It uses these details to capture jobs, track application status, and support backup and export.
 
 On enabled job platforms the tracker reads the listing and visible application feedback. On other sites it looks for structured job posting data when you click **Save current job**. It strips recognized credential parameters from saved links. The extension does not read form answers, passwords, or resume contents. It does not upload files, submit applications, send analytics, or share application records. A file is created when you choose to export or back up the log.
 
@@ -18,6 +18,6 @@ On a JobStreet vacancy success page, the tracker uses the vacancy ID and the vis
 | `scripting` | Run one structured-job capture after a manual request |
 | `storage` | Store settings and distinguish tab ownership across browser sessions |
 | `alarms` | Recover a pending countdown after the service worker stops |
-| Exact LinkedIn, JobStreet, and MYFutureJobs HTTPS hosts | Recognize supported listings and application events in those tabs |
+| Exact LinkedIn, JobStreet, MYFutureJobs, and MauKerja HTTPS hosts | Recognize supported listings and application events in those tabs |
 
 Use Settings to turn off detection for a website. **Clear tracker data** deletes saved records and pending attempts and turns off site detection. Keep any exports you want to retain. Exports are ordinary local files that remain under your control.

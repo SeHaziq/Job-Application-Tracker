@@ -4,9 +4,10 @@ import { request, type AttemptResolved } from '../messages';
 import { platformOf } from '../platforms';
 import { captureListing, jobstreetListingFromApply } from '../manual-capture';
 import { extractJob } from './index';
-import { classifyButton, readSignals, type Feedback } from './flow';
+import { buttonLabel, classifyButton, readSignals, type Feedback } from './flow';
 import { jobstreetReviewId, jobstreetSuccessId } from './jobstreet';
 import { observeJobstreetSuccess } from './jobstreet-success';
+import { maukerjaCardUrl, maukerjaSamePage, maukerjaSendNow } from './maukerja';
 import type { SiteDetector } from './types';
 
 interface Notifications {
@@ -19,6 +20,7 @@ export function observeApplications(detector: SiteDetector, notifications: Notif
   let queue = Promise.resolve();
   let stopWatching: (() => void) | undefined;
   let disposed = false;
+  let cardDraft: { page: URL; vacancy: URL } | undefined;
 
   function enqueue(action: () => Promise<void>) {
     queue = queue.then(async () => {
@@ -33,7 +35,7 @@ export function observeApplications(detector: SiteDetector, notifications: Notif
       (!id || !attempt.job.externalJobId || id === attempt.job.externalJobId);
   }
 
-  function watch(attempt: PendingAttempt, baseline: Map<Element, Feedback>) {
+  function watch(attempt: PendingAttempt, baseline: Map<Element, Feedback>, isCurrent = () => sameListing(attempt, location.href)) {
     stopWatching?.();
     const remaining = signalLifetime - (Date.now() - attempt.submittedAt);
     if (remaining <= 0) {
@@ -61,7 +63,7 @@ export function observeApplications(detector: SiteDetector, notifications: Notif
 
     function scan() {
       debounce = undefined;
-      if (!sameListing(attempt, location.href)) return;
+      if (!isCurrent()) return;
       const visible = [...readSignals(detector, document).values()];
       for (const signal of stale) if (!visible.includes(signal)) stale.delete(signal);
       const fresh = visible.filter(signal => !stale.has(signal));
@@ -77,7 +79,8 @@ export function observeApplications(detector: SiteDetector, notifications: Notif
 
     if (shadowScan === undefined) {
       observer.observe(document.body, {
-        childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['hidden', 'aria-hidden'],
+        childList: true, subtree: true, characterData: true, attributes: true,
+        attributeFilter: detector.id === 'maukerja' ? ['hidden', 'aria-hidden', 'class', 'style'] : ['hidden', 'aria-hidden'],
       });
     }
     scan();
@@ -87,11 +90,23 @@ export function observeApplications(detector: SiteDetector, notifications: Notif
     if (!event.isTrusted || event.defaultPrevented) return;
     const target = event instanceof SubmitEvent ? event.submitter : event.composedPath()[0];
     if (!(target instanceof Element)) return;
-    const href = location.href;
-    const url = new URL(href);
+    const page = new URL(location.href);
+    const maukerja = detector.id === 'maukerja';
+    const card = maukerja ? maukerjaCardUrl(target, page) : undefined;
+    const button = maukerja && target.closest('button, input[type="submit"]');
+    const text = button ? buttonLabel(button) : '';
+    if (!card && detector.flow.start?.test(text)) cardDraft = undefined;
+    const draft = maukerjaSendNow.test(text) ? cardDraft : undefined;
+    if (draft && !maukerjaSamePage(draft.page, page, draft.vacancy)) return;
+    const url = card ?? draft?.vacancy ?? page;
+    const href = url.href;
     if (!detector.observes(url)) return;
     const signal = classifyButton(detector, target, url);
     if (!signal) return;
+    if (maukerja && signal === 'start') {
+      cardDraft = card ? { page, vacancy: card } : undefined;
+      stopWatching?.();
+    }
     if (signal === 'cancel') {
       enqueue(async () => {
         if (active?.stage !== 'started' || !sameListing(active, href)) return;
@@ -133,7 +148,9 @@ export function observeApplications(detector: SiteDetector, notifications: Notif
       const pending = await request('submitAttempt', active.id);
       if (pending && !disposed) {
         active = pending;
-        watch(pending, baseline ?? new Map());
+        if (draft && cardDraft === draft) cardDraft = undefined;
+        const source = draft?.page ?? page;
+        watch(pending, baseline ?? new Map(), maukerja ? () => maukerjaSamePage(source, new URL(location.href), url) : undefined);
       }
     });
   }

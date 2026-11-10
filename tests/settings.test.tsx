@@ -11,7 +11,7 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 it('merges partial preference updates and preserves unrelated toggles', () => {
   const current = readSettings({ enabled: { linkedin: false }, autoSaveSeconds: 15 });
   expect(updateSettings(current, { enabled: { jobstreet: false } })).toEqual({
-    autoSaveSeconds: 15, enabled: { linkedin: false, jobstreet: false, myfuturejobs: true },
+    autoSaveSeconds: 15, enabled: { linkedin: false, jobstreet: false, myfuturejobs: true, maukerja: true },
   });
   expect(updateSettings(current, { autoSaveSeconds: null }).autoSaveSeconds).toBeNull();
 });

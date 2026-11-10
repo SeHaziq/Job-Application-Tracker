@@ -1,5 +1,35 @@
 # Local release checklist
 
+## 0.1.13
+
+MauKerja detects both Malay and English application actions and success toasts. Cards in View Progress state are excluded from application detection.
+
+The local package is `.output/job-application-tracker-0.1.13-chrome.zip`. Its SHA-256 is `8312ebd52e2aee2a30b2ca43bca5e9bb5364f967d99c7a192b00574be9dad072`.
+
+## 0.1.12
+
+MauKerja tracks submissions opened directly from a result card and uses a fresh success toast to verify the clicked vacancy.
+
+The local package is `.output/job-application-tracker-0.1.12-chrome.zip`. Its SHA-256 is `6ede34b585da53d269e931b2e46406e277f229a48b5fcde9be13bb370e50b8c1`.
+
+## 0.1.11
+
+MauKerja manual capture reads the selected search result's job card when the listing opens in an inline panel.
+
+The local package is `.output/job-application-tracker-0.1.11-chrome.zip`. Its SHA-256 is `58161456b6f9d6c82830febb6030297369fd3c7cacf84a3777c64fc949ad94c3`.
+
+## 0.1.10
+
+MauKerja tracks the popup's Hantar Sekarang as the final action after Mohon. Mohon Segera still tracks the application directly.
+
+The local package is `.output/job-application-tracker-0.1.10-chrome.zip`. Its SHA-256 is `86a68e2a75532536fdce27d9a7d9c0711bb9314f0eb956e5e636661684aeff38`.
+
+## 0.1.9
+
+MauKerja captures the selected vacancy and tracks Mohon Segera as pending user confirmation. The extension adds access to `https://www.maukerja.my/*`.
+
+The local package is `.output/job-application-tracker-0.1.9-chrome.zip`. Its SHA-256 is `f0cebe721ab004bbec61f473fad1d4273963434c7c54a2d143fa36f447d7d1d1`.
+
 ## 0.1.8
 
 LinkedIn capture uses the selected vacancy link and nearby listing details to fill the title, company and location in manual capture and Easy Apply.

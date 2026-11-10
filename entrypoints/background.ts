@@ -80,7 +80,7 @@ export default defineBackground(() => {
       }
       case 'clearData': {
         if (message.input !== 'delete-local-data') throw new Error('Confirm deletion in settings.');
-        const next = updateSettings(await settings(), { enabled: { linkedin: false, jobstreet: false, myfuturejobs: false } });
+        const next = updateSettings(await settings(), { enabled: { linkedin: false, jobstreet: false, myfuturejobs: false, maukerja: false } });
         await browser.storage.local.set({ [settingsKey]: next });
         await repository.clear();
         await reconcile();

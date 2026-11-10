@@ -5,6 +5,7 @@ import { detectors } from './detectors';
 import type { CapturedJob } from './records';
 import { webUrl } from './urls';
 import { jobstreetListingFromApply } from './manual-capture';
+import { isMaukerjaSearch } from './detectors/maukerja';
 
 export async function currentTab() {
   const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
@@ -26,6 +27,8 @@ export async function captureTab(tab: Awaited<ReturnType<typeof currentTab>>): P
       // The page may have been open before the extension was installed.
     }
   }
+  // Search-page metadata can describe a vacancy other than the selected card.
+  if (platform === 'maukerja' && isMaukerjaSearch(new URL(jobUrl))) return fallback;
   try {
     const [capture] = await browser.scripting.executeScript({ target: { tabId }, func: readPosting });
     return { ...fallback, ...capture?.result, externalJobId: externalJobId ?? capture?.result?.externalJobId };

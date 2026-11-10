@@ -2,13 +2,14 @@ const hosts = {
   linkedin: ['www.linkedin.com', 'linkedin.com', 'my.linkedin.com'],
   jobstreet: ['my.jobstreet.com', 'www.jobstreet.com.my', 'jobstreet.com.my'],
   myfuturejobs: ['candidates.myfuturejobs.gov.my', 'www.myfuturejobs.gov.my', 'myfuturejobs.gov.my'],
+  maukerja: ['www.maukerja.my'],
 } as const;
 
 export type SupportedPlatform = keyof typeof hosts;
 export type Platform = SupportedPlatform | 'generic';
 export const supportedPlatforms = Object.keys(hosts) as SupportedPlatform[];
 export const platformNames: Record<Platform, string> = {
-  linkedin: 'LinkedIn', jobstreet: 'JobStreet', myfuturejobs: 'MYFutureJobs', generic: 'Other website',
+  linkedin: 'LinkedIn', jobstreet: 'JobStreet', myfuturejobs: 'MYFutureJobs', maukerja: 'MauKerja', generic: 'Other website',
 };
 export const siteMatches = Object.values(hosts).flatMap(names => names.map(name => `https://${name}/*`));
 

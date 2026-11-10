@@ -13,7 +13,7 @@ A local-first Chrome extension for saving jobs and tracking applications. It sto
 
 - Open the toolbar popup and choose **Save current job**. Review any captured fields, then choose **Saved job** or **Applied**.
 - On a JobStreet application form, the tracker can fill details from the associated public listing. If details are unavailable, follow **Open the listing** in the manual form and try again.
-- In recognized LinkedIn, JobStreet, and MYFutureJobs flows, the extension captures listing details and watches for a final submission. A recognized site confirmation saves as **Site confirmed**. When the outcome is unclear, **Yes, save** records **User confirmed**. **No** discards the attempt.
+- In recognized LinkedIn, JobStreet, MYFutureJobs, and MauKerja flows, the extension captures listing details and watches for a final submission. A recognized site confirmation saves as **Site confirmed**. On MauKerja this includes **Permohonan berjaya dihantar!** after the user submits from the listing pane or a result card. If the result is unclear, **Yes, save** records **User confirmed**, **No** discards it, and the optional timer saves an unanswered attempt as **Unconfirmed**.
 - The default 10-second countdown saves an unresolved attempt as **Unconfirmed**. Adjust the timer or turn it off in Settings. Review open attempts and verify records from the dashboard.
 - Use the dashboard to search, filter, edit, and export the log. CSV and XLSX are spreadsheet exports. JSON is the backup and restore format.
 
@@ -33,4 +33,4 @@ npm.cmd run build
 npm.cmd run zip
 ```
 
-The unpacked build is `.output/chrome-mv3`. The ZIP is `.output/job-application-tracker-0.1.8-chrome.zip`. See [development and testing](DEVELOPMENT.md), [architecture](ARCHITECTURE.md), [privacy](PRIVACY.md), and the [roadmap](ROADMAP.md).
+The unpacked build is `.output/chrome-mv3`. The ZIP is `.output/job-application-tracker-0.1.13-chrome.zip`. See [development and testing](DEVELOPMENT.md), [architecture](ARCHITECTURE.md), [privacy](PRIVACY.md), and the [roadmap](ROADMAP.md).

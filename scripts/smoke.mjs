@@ -23,6 +23,49 @@ const browser = await chromium.launchPersistentContext('', {
 browser.setDefaultTimeout(10_000);
 
 function listing(url) {
+  if (url.hostname === 'www.maukerja.my' && /^(?:\/en)?\/jobsearch\/direct-card$/.test(url.pathname)) {
+    const english = url.pathname.startsWith('/en/');
+    return `<!doctype html>
+    <mkrb-job-card job-id="Selected123" job-title="Selected analyst" company="Selected employer"></mkrb-job-card>
+    <mkrb-job-card job-id="Clicked456" job-title="Commercial Intelligence" company="Clicked employer" apply="apply"></mkrb-job-card>
+    <aside>Selected analyst</aside><div id="toast"><span>${english ? 'Application submitted successfully!' : 'Permohonan berjaya dihantar!'}</span></div>
+    <script>
+      const root = document.querySelector('[job-id="Clicked456"]').attachShadow({ mode: 'open' });
+      root.innerHTML = '<button type="button" class="apply raised"><span>${english ? 'Apply Now' : 'Mohon'}</span></button>';
+      root.querySelector('button').onclick = () => {
+        document.body.insertAdjacentHTML('beforeend', '<div role="dialog"><button type="button" class="chat-preview-action-btn is-primary" id="send">${english ? 'Submit Now' : 'Hantar Sekarang'}</button></div>');
+        document.querySelector('#send').onclick = () => document.querySelector('[role="dialog"]').remove();
+      };
+    </script>`;
+  }
+  if (url.hostname === 'www.maukerja.my' && url.pathname === '/jobsearch/executive-assistant-jobs') return `<!doctype html>
+    <mkrb-job-card job-id="46E1xTqQG1" job-title="Executive Assistant" company="Wrong employer"></mkrb-job-card>
+    <mkrb-job-card job-id="QldTOw3DOV" job-title="Executive Assistant" company="Selected employer"
+      salary="MYR2,500 - MYR3,500 Sebulan" job-types='[{"label":"Sepenuh Masa"}]'
+      locations='[{"label":"KL City"},{"label":"WP Kuala Lumpur"}]'></mkrb-job-card>
+    <button id="select-job">View selected vacancy</button><aside hidden><h2>Executive Assistant</h2></aside>
+    <script>
+      document.querySelector('#select-job').onclick = () => {
+        history.replaceState(null, '', '?curentJobId=QldTOw3DOV');
+        document.querySelector('aside').hidden = false;
+      };
+    </script>`;
+  if (url.hostname === 'www.maukerja.my') return `<!doctype html><h1>Search results</h1>
+    <div class="modal is-active"><div class="modal-content"><div class="lg:sticky lg:top-6">
+      <div><h2>MauKerja analyst</h2><a href="/company/northwind">Northwind</a></div>
+      <div><div>MYR4,000 - MYR5,000 Sebulan</div><div>Sepenuh Masa</div><div>Bandar Kuala Lumpur</div></div>
+      <p>Mohon kerja ini sebagai:</p><button type="button" id="apply"><span>${url.searchParams.get('curentJobId') === '80wGVozgRF' ? 'Mohon' : 'Mohon Segera'}</span></button>
+    </div></div></div><script>
+      document.querySelector('#apply').onclick = event => {
+        document.querySelector('.modal').remove();
+        if (event.currentTarget.textContent === 'Mohon') {
+          document.body.insertAdjacentHTML('beforeend', '<div class="modal is-active"><div class="modal-content"><button type="button" id="send"><span>Hantar Sekarang</span></button></div></div>');
+          document.querySelector('#send').onclick = () => document.querySelector('.modal').remove();
+        } else {
+          history.replaceState(null, '', location.pathname);
+        }
+      };
+    </script>`;
   if (url.hostname === 'www.linkedin.com' && url.pathname === '/jobs/search-results/') return `<!doctype html>
     <main><aside><a href="/jobs/view/51/">Search card</a></aside><section>
     <a href="/company/northwind/">Northwind</a>
@@ -149,7 +192,7 @@ try {
       if (message.type() === 'error' && page.url().startsWith(origin)) errors.push(message.text());
     });
   });
-  await browser.route(/^https:\/\/(www\.linkedin\.com|my\.jobstreet\.com|candidates\.myfuturejobs\.gov\.my)\//, route => {
+  await browser.route(/^https:\/\/(www\.linkedin\.com|my\.jobstreet\.com|candidates\.myfuturejobs\.gov\.my|www\.maukerja\.my)\//, route => {
     const request = route.request();
     const url = new URL(request.url());
     if (['/job/52', '/job/60'].includes(url.pathname) && !request.isNavigationRequest()) return route.fulfill({ status: 403 });
@@ -179,8 +222,11 @@ try {
     const supported = title => title.endsWith('Supported site');
     await eventually(toolbarTitle, supported, 'Supported tab did not update its toolbar action');
     const session = await browser.browser().newBrowserCDPSession();
-    const { targetInfos } = await session.send('Target.getTargets', { filter: [{ type: 'tab' }] });
-    await session.send('Extensions.triggerAction', { id: new URL(origin).hostname, targetId: targetInfos.find(target => target.url === url).targetId });
+    const openAction = async url => {
+      const { targetInfos } = await session.send('Target.getTargets', { filter: [{ type: 'tab' }] });
+      await session.send('Extensions.triggerAction', { id: new URL(origin).hostname, targetId: targetInfos.find(target => target.url === url).targetId });
+    };
+    await openAction(url);
     const measure = () => dashboard.evaluate(() => {
       const view = globalThis.chrome.extension.getViews({ type: 'popup' })[0];
       if (!view) return null;
@@ -188,19 +234,23 @@ try {
       return {
         width: view.innerWidth,
         overflow: doc.documentElement.scrollWidth - doc.documentElement.clientWidth,
-        host: doc.body.innerText.includes('my.jobstreet.com'),
+        host: doc.querySelector('.popup-site strong')?.textContent,
         overview: doc.body.innerText.includes('Unconfirmed'),
         title: doc.querySelector('input[name=jobTitle]')?.value,
+        company: doc.querySelector('input[name=companyName]')?.value,
+        location: doc.querySelector('input[name=jobLocation]')?.value,
+        salary: doc.querySelector('input[name=salary]')?.value,
         saveVisible: [...doc.querySelectorAll('button')].some(button =>
           button.textContent === 'Save record' && button.getBoundingClientRect().bottom <= view.innerHeight),
       };
     });
-    const home = await eventually(measure, view => view?.host && view.overview, 'Edge toolbar popup did not load');
+    const home = await eventually(measure, view => view?.host === 'my.jobstreet.com' && view.overview, 'Edge toolbar popup did not load');
     assert.ok(home.width >= 360 && home.overflow <= 0, `Edge toolbar popup was ${home.width}px wide with ${home.overflow}px overflow`);
-    await dashboard.evaluate(() => {
+    const clickSave = () => dashboard.evaluate(() => {
       const popup = globalThis.chrome.extension.getViews({ type: 'popup' })[0];
       [...popup.document.querySelectorAll('button')].find(button => button.textContent.includes('Save current job')).click();
     });
+    await clickSave();
     const form = await eventually(measure, view => view?.title === 'JobStreet engineer 58', 'Edge toolbar popup did not fill the save form');
     assert.equal(form.width, home.width);
     assert.ok(form.overflow <= 0);
@@ -215,9 +265,18 @@ try {
     await eventually(toolbarTitle, title => title === 'Job Application Tracker', 'Toolbar action did not reset after leaving the supported site');
     await listing.goBack();
     await eventually(toolbarTitle, supported, 'Toolbar action did not recover on back navigation');
+    await listing.goto('https://www.maukerja.my/jobsearch/executive-assistant-jobs');
+    await listing.locator('#select-job').click();
+    await openAction(listing.url());
+    await eventually(measure, view => view?.host === 'www.maukerja.my', 'MauKerja toolbar popup did not open');
+    await clickSave();
+    const maukerja = await eventually(measure, view => view?.title === 'Executive Assistant', 'MauKerja inline vacancy did not autofill');
+    assert.equal(maukerja.company, 'Selected employer');
+    assert.equal(maukerja.location, 'KL City, WP Kuala Lumpur');
+    assert.equal(maukerja.salary, 'MYR2,500 - MYR3,500 Sebulan');
     await listing.close();
     await session.detach();
-    console.log('Native Edge popup kept its width, and the toolbar state followed navigation in the same tab.');
+    console.log('Native Edge popup kept its width and autofilled the selected inline MauKerja vacancy.');
   }
 
   const popup = await browser.newPage();
@@ -344,6 +403,79 @@ try {
 
   await dashboard.getByLabel('Auto-save after').selectOption('off');
   await dashboard.getByText('Settings saved.').waitFor();
+  const maukerjaUrl = 'https://www.maukerja.my/jobsearch/data-analyst-jobs-in-kuala-lumpur?curentJobId=QldTOw3DOV';
+  const maukerjaCapture = await capture(maukerjaUrl);
+  assert.equal(maukerjaCapture.jobTitle, 'MauKerja analyst');
+  assert.equal(maukerjaCapture.companyName, 'Northwind');
+  assert.equal(maukerjaCapture.jobLocation, 'Bandar Kuala Lumpur');
+  assert.equal(maukerjaCapture.salary, 'MYR4,000 - MYR5,000 Sebulan');
+  for (const [jobId, twoStep] of [['QldTOw3DOV', false], ['80wGVozgRF', true]]) {
+    const maukerja = await browser.newPage();
+    await maukerja.goto(maukerjaUrl.replace('QldTOw3DOV', jobId));
+    assert.deepEqual(await send('pendingAttempts'), []);
+    await maukerja.locator('#apply span').click();
+    if (twoStep) {
+      await maukerja.locator('#send').waitFor();
+      assert.deepEqual(await send('pendingAttempts'), []);
+      assert.ok(!(await send('exportPage')).some(record => record.platform === 'maukerja'));
+      await maukerja.locator('#send span').click();
+    }
+    await maukerja.locator('job-application-tracker-notice').waitFor({ state: 'attached' });
+    assert.ok(!(await send('exportPage')).some(record => record.platform === 'maukerja'));
+    await dashboard.reload();
+    const maukerjaAttempt = dashboard.locator('.pending-row', { hasText: 'MauKerja analyst' });
+    await maukerjaAttempt.getByRole('button', { name: 'Yes, save' }).click();
+    await dashboard.getByRole('button', { name: 'MauKerja analyst' }).waitFor();
+    const maukerjaRecord = (await send('exportPage')).find(record => record.platform === 'maukerja');
+    assert.equal(maukerjaRecord.externalJobId, jobId);
+    assert.equal(maukerjaRecord.verificationStatus, 'user_confirmed');
+    await send('remove', maukerjaRecord.id);
+    await maukerja.close();
+  }
+  console.log('MauKerja tracked both final buttons and left the application pending until user confirmation.');
+  for (const [locale, search] of [['', '?curentJobId=Selected123'], ['', ''], ['/en', '?curentJobId=Selected123']]) {
+    const english = locale === '/en';
+    const direct = await browser.newPage();
+    await direct.goto(`https://www.maukerja.my${locale}/jobsearch/direct-card${search}`);
+    await direct.getByRole('button', { name: english ? 'Apply Now' : 'Mohon', exact: true }).click();
+    assert.deepEqual(await send('pendingAttempts'), []);
+    await direct.getByRole('button', { name: english ? 'Submit Now' : 'Hantar Sekarang' }).click();
+    const pending = await eventually(() => send('pendingAttempts'), attempts =>
+      attempts.some(attempt => attempt.job.companyName === 'Clicked employer'), 'Direct MauKerja application did not keep the clicked card');
+    assert.equal(pending.length, 1);
+    await direct.locator('job-application-tracker-notice').waitFor({ state: 'attached' });
+    assert.ok(!(await send('exportPage')).some(record => record.platform === 'maukerja'));
+    await direct.locator('#toast').evaluate(node => { node.hidden = true; });
+    await direct.evaluate(text => {
+      setTimeout(() => {
+        const toast = document.createElement('p');
+        toast.textContent = text;
+        document.body.append(toast);
+      }, 250);
+    }, english ? 'Application submitted successfully!' : 'Permohonan berjaya dihantar!');
+    const records = await eventually(() => send('exportPage'), records => records.some(record => record.platform === 'maukerja'),
+      'Fresh MauKerja success toast did not save the direct application');
+    const record = records.find(record => record.platform === 'maukerja');
+    assert.equal(record.externalJobId, 'Clicked456');
+    assert.equal(record.verificationStatus, 'site_confirmed');
+    await send('remove', record.id);
+    await direct.close();
+  }
+  const changedSelection = await browser.newPage();
+  await changedSelection.goto('https://www.maukerja.my/jobsearch/direct-card?curentJobId=Selected123');
+  await changedSelection.getByRole('button', { name: 'Mohon', exact: true }).click();
+  await changedSelection.evaluate(() => {
+    document.body.insertAdjacentHTML('beforeend', '<mkrb-job-card job-id="Other789" job-title="Unrelated vacancy"></mkrb-job-card>');
+    history.replaceState(null, '', '?curentJobId=Other789');
+  });
+  await changedSelection.getByRole('button', { name: 'Hantar Sekarang' }).click();
+  await changedSelection.locator('job-application-tracker-notice').waitFor({ state: 'attached', timeout: 1200 })
+    .then(() => assert.fail('A changed MauKerja selection started a confirmation'), error => {
+      if (error.name !== 'TimeoutError') throw error;
+    });
+  assert.deepEqual(await send('pendingAttempts'), []);
+  await changedSelection.close();
+  console.log('MauKerja attributed a fresh success toast to the clicked shadow card, with or without another selected vacancy.');
   const jobstreetListing = await browser.newPage();
   await jobstreetListing.goto('https://my.jobstreet.com/job/52');
   const nextTab = browser.waitForEvent('page');
@@ -467,6 +599,7 @@ try {
   await dashboard.getByRole('button', { name: 'Clear tracker data' }).click();
   await dashboard.getByText('Your log is empty').waitFor();
   assert.equal(await dashboard.getByLabel('Detect on LinkedIn').isChecked(), false);
+  assert.equal(await dashboard.getByLabel('Detect on MauKerja').isChecked(), false);
   assert.deepEqual(errors, []);
   console.log('Responsive layout, keyboard dialog controls, confirmed deletion and console checks passed.');
 } catch (error) {

@@ -119,6 +119,53 @@ it('recognizes the MYFutureJobs confirmation heading on a full page', () => {
   expect([...readSignals(detectors.myfuturejobs, doc).values()]).toEqual(['site']);
 });
 
+it('distinguishes MauKerja Mohon, Mohon Segera, and the popup Hantar Sekarang', () => {
+  const doc = fixture(`<button id="outside">Mohon Segera</button><button id="outside-mohon">Mohon</button>
+    <button id="outside-send">Hantar Sekarang</button><div class="modal is-active"><div class="modal-content">
+    <div class="lg:sticky lg:top-6"><div>Job title</div><div>Job details</div><button id="mohon">Mohon</button>
+    <button type="button"><span id="inside">Mohon Segera</span></button></div>
+    </div></div><div class="modal is-active"><div class="modal-content">
+    <button id="send"><span>Hantar Sekarang</span></button><button id="disabled" disabled>Hantar Sekarang</button>
+    </div></div>`);
+  const url = new URL('https://www.maukerja.my/jobsearch/data-analyst-jobs-in-kuala-lumpur?curentJobId=80wGVozgRF');
+  const classify = (selector: string) => classifyButton(detectors.maukerja, doc.querySelector(selector)!, url);
+  expect(classify('#outside')).toBeNull();
+  expect(classify('#outside-mohon')).toBeNull();
+  expect(classify('#outside-send')).toBeNull();
+  expect(classify('#disabled')).toBeNull();
+  expect(classify('#mohon')).toBe('start');
+  expect(classify('#inside')).toBe('submit');
+  expect(classify('#send span')).toBe('submit');
+  url.search = '';
+  expect(classify('#inside')).toBeNull();
+  expect(classify('#send span')).toBeNull();
+});
+
+it('recognizes the exact MauKerja success toast and ignores similar copy', () => {
+  const doc = fixture(`<div><span>Permohonan berjaya dihantar!</span><button>×</button></div>
+    <p>Permohonan tidak berjaya dihantar!</p><div hidden><p>Permohonan berjaya dihantar!</p></div>`);
+  expect([...readSignals(detectors.maukerja, doc).values()]).toEqual(['site']);
+});
+
+it('uses MauKerja card state and distinguishes English open, submit, and success', () => {
+  const url = new URL('https://www.maukerja.my/en/jobsearch/data-analyst-jobs?curentJobId=abc');
+  const doc = fixture(`<mkrb-job-card job-id="abc" apply="apply"></mkrb-job-card>
+    <div class="modal is-active"><div class="modal-content"><div class="lg:sticky lg:top-6"><button id="pane">Apply Job</button></div></div></div>
+    <button id="outside">Submit Now</button><div role="dialog"><button id="send" class="chat-preview-action-btn is-primary">Submit Now</button></div>
+    <p>Application submitted successfully!</p>`);
+  const card = doc.querySelector('mkrb-job-card')!;
+  const shadow = card.attachShadow({ mode: 'open' });
+  shadow.innerHTML = '<button class="apply raised"><span>Apply Now</span></button>';
+  const apply = shadow.querySelector('span')!;
+  expect(classifyButton(detectors.maukerja, apply, url)).toBe('start');
+  card.setAttribute('apply', 'view-progress');
+  expect(classifyButton(detectors.maukerja, apply, url)).toBeNull();
+  expect(classifyButton(detectors.maukerja, doc.querySelector('#pane')!, url)).toBe('start');
+  expect(classifyButton(detectors.maukerja, doc.querySelector('#outside')!, url)).toBeNull();
+  expect(classifyButton(detectors.maukerja, doc.querySelector('#send')!, url)).toBe('submit');
+  expect([...readSignals(detectors.maukerja, doc).values()]).toEqual(['site']);
+});
+
 it('does not observe job confirmation feedback on unrelated pages', () => {
   expect(detectors.linkedin.observes(new URL('https://www.linkedin.com/messaging/'))).toBe(false);
   expect(detectors.jobstreet.observes(new URL('https://my.jobstreet.com/account/'))).toBe(false);
