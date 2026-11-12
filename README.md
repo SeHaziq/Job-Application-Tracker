@@ -38,15 +38,17 @@ Pin the extension to your toolbar and refresh any job pages you already have ope
 
 ## Supported job boards
 
-| Job board | Supported application flow |
-| --- | --- |
-| **LinkedIn** | Easy Apply |
-| **JobStreet** | Quick Apply and listing capture from the application form |
-| **MYFutureJobs** | In-site application popup |
-| **MauKerja** | In-site application flows in Malay and English |
-| **Other websites** | Manual saving from the toolbar |
+| Job site | On-site apply | Redirect to an employer’s site |
+| --- | --- | --- |
+| **LinkedIn** | Tracks **Easy Apply** and looks for LinkedIn’s confirmation after you submit. | Manual tracking for external **Apply** links. |
+| **JobStreet Malaysia** | Tracks **Quick Apply** and looks for the JobStreet success page, even when the form opens in a new JobStreet tab. | Manual tracking for **Apply** links that leave JobStreet. |
+| **MYFutureJobs** | Tracks the final **Apply** in the application popup and looks for a confirmation. | Manual tracking if the application takes you off-site. |
+| **MauKerja** | Tracks **Hantar Sekarang**, **Submit Now**, and **Mohon Segera**, and looks for a success message in Malay or English. | Manual tracking if the application takes you off-site. |
+| **Other websites** | Manual tracking. | Manual tracking. |
 
-The [platform guide](PLATFORMS.md) covers tested flows and manual fallbacks.
+External submissions aren’t tracked automatically. Open **Save current job** from the original listing and choose **Saved job** if you haven’t applied yet. After you submit on the employer’s site, change the record to **Applied** in the dashboard. If you’ve already submitted, you can save the listing directly as **Applied**.
+
+See the [platform guide](PLATFORMS.md) for tested flows and confirmation signals.
 
 ## Build from source
 
