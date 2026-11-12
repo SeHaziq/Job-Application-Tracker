@@ -1,90 +1,68 @@
-# Job Application Tracker
+<p align="center">
+  <img src="assets/store/brand/icon-128.png" width="96" height="96" alt="Job Application Tracker icon">
+</p>
 
-**AI-Assisted Development** · **Local-First** · **Manifest V3**
+<h1 align="center">Job Application Tracker</h1>
 
-A lightweight browser extension to **save jobs, track applications, and organize your job search** — all in one place.
+<p align="center">
+  Save job listings, track applications, and see what’s moving forward.<br>
+  Your records stay in your browser profile.
+</p>
 
-Automatically detects applications on supported platforms, with manual tracking available for any website. Your records stay in your browser profile.
+<p align="center">
+  <a href="https://microsoftedge.microsoft.com/addons/detail/job-application-tracker/hcpeajnonkeacefeiihmolopfmjhhpof"><img src="https://img.shields.io/badge/Get_it_for-Microsoft_Edge-195C47?style=for-the-badge" alt="Get Job Application Tracker for Microsoft Edge"></a>
+</p>
+
+<p align="center">
+  <a href="#install">Install</a> · <a href="#features">Features</a> · <a href="PRIVACY.md">Privacy</a> · <a href="#contributing">Contributing</a>
+</p>
+
+![Application dashboard showing weekly activity, application statuses, and the job log](assets/store/screenshots/03-job-search-dashboard.png)
+
+## Install
+
+| Browser | How to get it |
+| --- | --- |
+| **Microsoft Edge** | [Install from Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/job-application-tracker/hcpeajnonkeacefeiihmolopfmjhhpof) |
+| **Firefox 147+** | [Build and load temporarily](DEVELOPMENT.md#browser-checks) |
+| **Google Chrome** | [Build the Chrome package](DEVELOPMENT.md#commands), then load it unpacked from `chrome://extensions` |
+
+Pin the extension to your toolbar and refresh any job pages you already have open.
 
 ## Features
 
-<<<<<<< HEAD
-- Open the toolbar popup and choose **Save current job**. Review any captured fields, then choose **Saved job** or **Applied**.
-- On a JobStreet application form, the tracker can fill details from the associated public listing. If details are unavailable, follow **Open the listing** in the manual form and try again.
-- In recognized LinkedIn, JobStreet, MYFutureJobs, and MauKerja flows, the extension captures listing details and watches for a final submission. A recognized site confirmation saves as **Site confirmed**. On MauKerja this includes **Permohonan berjaya dihantar!** after the user submits from the listing pane or a result card. If the result is unclear, **Yes, save** records **User confirmed**, **No** discards it, and the optional timer saves an unanswered attempt as **Unconfirmed**.
-- The default 10-second countdown saves an unresolved attempt as **Unconfirmed**. Adjust the timer or turn it off in Settings. Review open attempts and verify records from the dashboard.
-- Use the dashboard to search, filter, edit, and export the log. CSV and XLSX are spreadsheet exports. JSON is the backup and restore format.
-=======
-- **Smart Detection** — Detects application submissions on supported job platforms.
-- **Job Tracking** — Save jobs, manage statuses, and review application history.
-- **Submission Verification** — Site-confirmed, user-confirmed, or unconfirmed.
-- **JobStreet Assistance** — Helps fill supported fields using public job listing details.
-- **Dashboard** — Search, filter, edit, and manage saved applications.
-- **Export & Backup** — CSV, XLSX, and JSON support.
-- **Local-First** — No separate account or external database required.
->>>>>>> c58d54799847e69e516e20e1f867f5c54a744f36
+- **Save a job from any website.** Open the toolbar popup and choose **Save current job**. Review the captured details, then save it as **Saved job** or **Applied**.
+- **Track submissions on supported job boards.** The tracker observes the application flow and records site confirmations when it can verify them. You can confirm or discard unclear attempts. By default, unanswered attempts are saved as **Unconfirmed** after 10 seconds. You can change the timer in Settings.
+- **Review your progress.** See weekly activity and application statuses, then search, filter, and edit your application log.
+- **Export and back up your records.** Use CSV or XLSX for spreadsheets and JSON for backup and restore.
 
-## Supported Platforms
+## Supported job boards
 
-| Platform | Support |
-|---|---|
-| LinkedIn | Application detection |
-| JobStreet | Detection + form assistance |
-| MYFutureJobs | Application detection |
-| Other websites | Manual tracking |
+| Job board | Supported application flow |
+| --- | --- |
+| **LinkedIn** | Easy Apply |
+| **JobStreet** | Quick Apply and listing capture from the application form |
+| **MYFutureJobs** | In-site application popup |
+| **MauKerja** | In-site application flows in Malay and English |
+| **Other websites** | Manual saving from the toolbar |
 
-> Platform integrations have been tested with simulated pages. See [Platform Coverage](PLATFORMS.md) for live testing status and limitations.
+The [platform guide](PLATFORMS.md) covers tested flows and manual fallbacks.
 
-## Installation
+## Build from source
 
-**Microsoft Edge / Google Chrome**
-
-1. Download and extract the release ZIP, or build the project.
-2. Open `edge://extensions` or `chrome://extensions`.
-3. Enable **Developer mode** → **Load unpacked**.
-4. Select `.output/edge-mv3` for the default Edge build or the extracted folder containing `manifest.json`.
-
-Pin the extension to your toolbar and reload any existing job tabs.
-
-## Development
-
-**Requirements:** Node.js 26 LTS, npm, and Chrome 120+.
+Use Node.js 26 and npm from the project folder.
 
 ```powershell
 npm.cmd ci
-npm.cmd run dev
-
-# Quality checks
-npm.cmd run typecheck
-npm.cmd run lint
-npm.cmd test
-
-# Production build
-npm.cmd run build
-npm.cmd run zip
+npm.cmd run zip                         # Edge
+npm.cmd run zip -- -b firefox --mv3      # Firefox and Mozilla review sources
+npm.cmd run zip -- -b chrome --mv3       # Chrome
 ```
 
-<<<<<<< HEAD
-The unpacked build is `.output/chrome-mv3`. The ZIP is `.output/job-application-tracker-0.1.13-chrome.zip`. See [development and testing](DEVELOPMENT.md), [architecture](ARCHITECTURE.md), [privacy](PRIVACY.md), and the [roadmap](ROADMAP.md).
-=======
-**Output:** `.output/chrome-mv3` and `.output/job-application-tracker-0.1.8-chrome.zip`
+Packages are written to `.output/`. For local development and browser checks, see the [development guide](DEVELOPMENT.md).
 
 ## Contributing
 
-**Contributions are welcome!**
+Open a [GitHub issue](https://github.com/SeHaziq/Job-Application-Tracker/issues) to report a bug, suggest a feature, or request another job board. Include the browser, job site, and steps to reproduce, with personal application details removed. For major changes or new integrations, open an issue before sending a pull request.
 
-- **Request a Website** — Open an Issue with the job platform name, URL, and application flow.
-- **Report a Bug** — Describe the issue, browser version, and steps to reproduce.
-- **Suggest a Feature** — Share ideas for improving the extension.
-- **Submit a Pull Request** — Fork the repository, make your changes, run the tests, and open a PR.
-
-Please open an Issue before working on major changes or new platform integrations. Never include personal application data or credentials in reports.
-
-## Documentation
-
-[Development](DEVELOPMENT.md) · [Architecture](ARCHITECTURE.md) · [Platforms](PLATFORMS.md) · [Privacy](PRIVACY.md) · [Roadmap](ROADMAP.md)
-
----
-
-<small>**v0.1.8** · Built with AI-assisted development · Made for a simpler job search.</small>
->>>>>>> c58d54799847e69e516e20e1f867f5c54a744f36
+[Architecture](ARCHITECTURE.md) · [Privacy policy](PRIVACY.md) · [Roadmap](ROADMAP.md) · [Release guide](RELEASE.md)
